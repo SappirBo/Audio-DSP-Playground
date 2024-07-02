@@ -75,7 +75,7 @@ class WavFile:
         plt.show()
 
     def getAudioFrame(self):
-        self.m_audio_player.getCurrentFrame()
+        return self.m_audio_player.getCurrentFrame()
 
     def isAudioPlaying(self) -> bool:
         return self.m_audio_player.isPlaying()
