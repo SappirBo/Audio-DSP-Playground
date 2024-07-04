@@ -13,8 +13,9 @@ class AudioPlayer:
         self.m_track:str = None
         self.m_sound_object = None
         self.m_current_track_time:float = -1.0 #when track is running, holds the time
-        self.m_frames_per_sec = 24
+        self.m_samples_per_sec = 4096
         self.m_samples:np.NDArray = None
+        self.m_sampling_rate = 44100
     
     def loadTrack(self, file_path):
         """Load a track from a file path."""
@@ -33,34 +34,38 @@ class AudioPlayer:
         pygame.mixer.music.play()
         milisec_to_seconds = 1000
         while pygame.mixer.music.get_busy(): 
-            pygame.time.Clock().tick(self.m_frames_per_sec)
+            pygame.time.Clock().tick(self.m_sampling_rate/self.m_samples_per_sec)
             self.m_current_track_time = pygame.mixer.music.get_pos() / milisec_to_seconds
         self.m_current_track_time=-1
 
     def stopTrack(self):
         """Stop the currently playing music."""
         pygame.mixer.music.stop()
-        print("Music stopped.")
 
     def pauseTrack(self):
         """Pause the currently playing music."""
         pygame.mixer.music.pause()
-        print("Music paused.")
 
     def unpauseTrack(self):
         """Resume playing the paused music."""
         pygame.mixer.music.unpause()
-        print("Music resumed.")
 
-    def getCurrentFrame(self):
+    def getCurrentFrame(self) ->tuple:
         if self.isPlaying == False:
-            print("Nothing Is Running ")
             return
         if self.m_sound_object:
-            fs = 441000
-            frame_size = int(fs/self.m_frames_per_sec)
-            start_point = int(frame_size * self.m_current_track_time)
-            return self.m_samples[start_point : start_point+frame_size]
+            start_point = int(self.m_samples_per_sec * self.m_current_track_time)
+            frame = self.m_samples[start_point : start_point+self.m_samples_per_sec]
+            return self.__timeToFrequncyDomain(frame)
+    
+    def __timeToFrequncyDomain(self, buffer:np.ndarray)->tuple:
+        fft_amplitude = None
+        fft_freq   = None
+        if len(buffer) > 0:
+            fft_result = np.fft.rfft(buffer)
+            fft_freq = np.fft.rfftfreq(len(buffer), 1 / 44100)
+            fft_amplitude = 2 * np.abs(fft_result) / len(buffer)
+        return fft_amplitude, fft_freq
   
     def isPlaying(self) -> bool:
         return pygame.mixer.music.get_busy()
