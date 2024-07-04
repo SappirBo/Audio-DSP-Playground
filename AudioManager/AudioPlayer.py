@@ -13,7 +13,7 @@ class AudioPlayer:
         self.m_track:str = None
         self.m_sound_object = None
         self.m_current_track_time:float = -1.0 #when track is running, holds the time
-        self.m_samples_per_sec = 4096
+        self.m_samples_per_frame = 4096
         self.m_samples:np.NDArray = None
         self.m_sampling_rate = 44100
     
@@ -33,7 +33,7 @@ class AudioPlayer:
     def __play(self):
         pygame.mixer.music.play()
         milisec_to_seconds = 1000
-        ticking_value = self.m_sampling_rate/self.m_samples_per_sec * 10
+        ticking_value = self.m_sampling_rate/self.m_samples_per_frame * 10
         while pygame.mixer.music.get_busy(): 
             pygame.time.Clock().tick(ticking_value)
             self.m_current_track_time = pygame.mixer.music.get_pos() / milisec_to_seconds
@@ -55,9 +55,9 @@ class AudioPlayer:
         if self.isPlaying == False:
             return
         if self.m_sound_object:
-            start_point = int(self.m_samples_per_sec * self.m_current_track_time)
-            frame = self.m_samples[start_point : start_point+self.m_samples_per_sec]
-            print("current time: ",self.m_current_track_time,"| start point: ", start_point)
+            start_point = int((self.m_sampling_rate * self.m_current_track_time) + self.m_samples_per_frame)
+            frame = self.m_samples[start_point : start_point+self.m_samples_per_frame]
+            # print("current time: ",self.m_current_track_time,"| start point: ", start_point)
             return self.__timeToFrequncyDomain(frame)
     
     def __timeToFrequncyDomain(self, buffer:np.ndarray)->tuple:
@@ -66,7 +66,7 @@ class AudioPlayer:
         if len(buffer) > 0:
             fft_result = np.fft.rfft(buffer)
             fft_freq = np.fft.rfftfreq(len(buffer), 1 / 44100)
-            fft_amplitude = 2 * np.abs(fft_result) / len(buffer)
+            fft_amplitude = 2 * np.abs(fft_result) / self.m_samples_per_frame
         return fft_amplitude, fft_freq
   
     def isPlaying(self) -> bool:
@@ -84,5 +84,6 @@ class AudioPlayer:
         print("length of Right samples: ",len(right_channel),"| length/44100 =", len(right_channel)/44100)
         return left_channel,right_channel
 
-
+    def getSamplesPerFrame(self)->int:
+        return self.m_samples_per_frame
         

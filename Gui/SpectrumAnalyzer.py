@@ -29,25 +29,33 @@ class SpectrumAnalyzer:
     def update_spectrum(self):
         while self.m_thread_flag:
             while self.m_audio_source.isAudioPlaying():
-                fft_result, fft_freq = self.m_audio_source.getAudioFrame()
-                if fft_freq is not None and fft_result is not None:
-                    self.setAxes(fft_freq, fft_result)
+                fft_amplitude, fft_freq = self.m_audio_source.getAudioFrame()
+                if fft_freq is not None and fft_amplitude is not None:
+                    self.setAxes(fft_freq, fft_amplitude)
                     self.m_canvas.draw()
             continue
 
-    def setAxes(self, fft_freq=None, fft_result=None)->None:
+    def setAxes(self, fft_freq=None, fft_amplitude=None)->None:
         self.m_ax.clear()
-        if fft_freq is not None and fft_result is not None:
-            self.m_ax.semilogx(fft_freq, np.abs(fft_result))
-        self.m_ax.margins(0,0.1)
-        self.m_ax.grid(which='both', axis='both')
-        self.m_ax.set_xscale('log')
+        if fft_freq is not None and fft_amplitude is not None:
+            self.m_ax.semilogx(fft_freq, fft_amplitude)
+            self.m_ax.margins(0, 0.1)
+            self.m_ax.grid(which='both', axis='both')
+            self.m_ax.set_xscale('log')
+            self.m_ax.set_yscale('log')
+
+        amplitude_ticks = np.array([1, 10, 50, 100, 500, 1000, 2000, 4000])
+        self.m_ax.set_yticks(amplitude_ticks)
+        self.m_ax.set_yticklabels(amplitude_ticks)
+        
         frequencies = np.array([0, 30, 50, 100, 250, 500, 1000, 2000, 4000, 8000, 10000, 20000])
         frequencies[0] = 1 
         self.m_ax.set_xticks(frequencies)
         labels = ['0', '30', '50', '100', '250', '500', '1k', '2k', '4k', '8k', '10k', '20k']
         self.m_ax.set_xticklabels(labels)
-        self.m_ax.set_ylim(0,4096)  # Set fixed y-axis limits
+
+        self.m_ax.set_ylim(1, 4000)
         self.m_ax.set_xlabel('Frequency (Hz)')
         self.m_ax.set_ylabel('Amplitude')
         self.m_ax.set_xlim(20, 20000)
+

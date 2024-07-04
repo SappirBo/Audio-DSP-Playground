@@ -80,4 +80,5 @@ class WavFile:
     def isAudioPlaying(self) -> bool:
         return self.m_audio_player.isPlaying()
 
-    
+    def getAudioSamplesPerFrame(self)->int:
+        return self.m_audio_player.getSamplesPerFrame()
