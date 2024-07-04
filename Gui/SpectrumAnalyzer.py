@@ -39,12 +39,14 @@ class SpectrumAnalyzer:
         self.m_ax.clear()
         if fft_freq is not None and fft_amplitude is not None:
             self.m_ax.semilogx(fft_freq, fft_amplitude)
-            self.m_ax.margins(0, 0.1)
-            self.m_ax.grid(which='both', axis='both')
-            self.m_ax.set_xscale('log')
-            self.m_ax.set_yscale('log')
+        
+        self.m_ax.margins(0, 0.1)
+        self.m_ax.grid(which='both', axis='both')
+        self.m_ax.set_xscale('log')
+        # self.m_ax.set_yscale('log')
+        self.m_ax.set_yscale('symlog', linthresh=0.1)
 
-        amplitude_ticks = np.array([1, 10, 50, 100, 500, 1000, 2000, 4000])
+        amplitude_ticks = np.array([1, 10, 25, 50, 100, 250, 500, 1000, 2000, 4000])
         self.m_ax.set_yticks(amplitude_ticks)
         self.m_ax.set_yticklabels(amplitude_ticks)
         
