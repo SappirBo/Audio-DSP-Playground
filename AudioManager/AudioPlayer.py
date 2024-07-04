@@ -33,8 +33,9 @@ class AudioPlayer:
     def __play(self):
         pygame.mixer.music.play()
         milisec_to_seconds = 1000
+        ticking_value = self.m_sampling_rate/self.m_samples_per_sec * 10
         while pygame.mixer.music.get_busy(): 
-            pygame.time.Clock().tick(self.m_sampling_rate/self.m_samples_per_sec)
+            pygame.time.Clock().tick(ticking_value)
             self.m_current_track_time = pygame.mixer.music.get_pos() / milisec_to_seconds
         self.m_current_track_time=-1
 
@@ -56,6 +57,7 @@ class AudioPlayer:
         if self.m_sound_object:
             start_point = int(self.m_samples_per_sec * self.m_current_track_time)
             frame = self.m_samples[start_point : start_point+self.m_samples_per_sec]
+            print("current time: ",self.m_current_track_time,"| start point: ", start_point)
             return self.__timeToFrequncyDomain(frame)
     
     def __timeToFrequncyDomain(self, buffer:np.ndarray)->tuple:
