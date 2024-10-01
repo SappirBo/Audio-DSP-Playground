@@ -27,6 +27,7 @@ class SpectrumAnalyzer:
         self.m_thread_flag = False
 
     def update_spectrum(self):
+        delay = 0.1
         while self.m_thread_flag:
             while self.m_audio_source.isAudioPlaying():
                 fft_amplitude, fft_freq = self.m_audio_source.getAudioFrame()

@@ -18,7 +18,7 @@ class MainScreen:
         self.m_root.mainloop()
 
     def __setConfiguration(self):
-        self.m_root.geometry('2000x1000')
+        self.m_root.geometry('1000x450')
         self.m_root.resizable(width=False, height=False)
         self.m_menu_bar = MenuBar(self.m_root, self.handleWavSelection, self.handleWavPlot)
         self.m_spectrum_analyzer = SpectrumAnalyzer(self.m_root, self.m_wav_file)

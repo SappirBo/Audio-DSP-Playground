@@ -4,6 +4,7 @@ https://www.studytonight.com/tkinter/music-player-application-using-tkinter
 
 import pygame
 import threading
+import wave
 import numpy as np
 
 class AudioPlayer:
@@ -16,6 +17,7 @@ class AudioPlayer:
         self.m_samples_per_frame = 4096
         self.m_samples:np.NDArray = None
         self.m_sampling_rate = 44100
+        self.m_channels:int = 0
     
     def loadTrack(self, file_path):
         """Load a track from a file path."""
@@ -51,14 +53,23 @@ class AudioPlayer:
         """Resume playing the paused music."""
         pygame.mixer.music.unpause()
 
-    def getCurrentFrame(self) ->tuple:
-        if self.isPlaying == False:
-            return
+    def getCurrentFrame(self) -> tuple:
+        if not self.isPlaying():
+            return None
         if self.m_sound_object:
-            start_point = int((self.m_sampling_rate * self.m_current_track_time) + self.m_samples_per_frame)
-            frame = self.m_samples[start_point : start_point+self.m_samples_per_frame]
-            # print("current time: ",self.m_current_track_time,"| start point: ", start_point)
+            # Adjust for number of channels
+            start_point = int(self.m_sampling_rate * self.m_current_track_time * self.m_channels)
+            end_point = start_point + self.m_samples_per_frame * self.m_channels
+            if end_point > len(self.m_samples):
+                return None
+            frame = self.m_samples[start_point:end_point]
+            if self.m_channels == 2:
+                # Convert stereo to mono by averaging the channels
+                left_channel = frame[0::2]
+                right_channel = frame[1::2]
+                frame = (left_channel + right_channel) / 2
             return self.__timeToFrequncyDomain(frame)
+
     
     def __timeToFrequncyDomain(self, buffer:np.ndarray)->tuple:
         fft_amplitude = None
@@ -73,6 +84,10 @@ class AudioPlayer:
         return pygame.mixer.music.get_busy()
     
     def initRawSamplesOfAudio(self):
+        # Open the WAV file to get the number of channels
+        with wave.open(self.m_track, 'rb') as wave_file:
+            self.m_channels = wave_file.getnchannels()
+
         raw_audio = self.m_sound_object.get_raw()
         samples = np.frombuffer(raw_audio, dtype=np.int16)
         self.m_samples = samples

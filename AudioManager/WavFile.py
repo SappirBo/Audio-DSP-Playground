@@ -5,11 +5,15 @@ from .WavWriter import WavWriter
 from .AudioPlayer import AudioPlayer
 from matplotlib import pyplot as plt
 from matplotlib import style
+import threading
+
+
 
 class WavFile:
     def __init__(self, path_to_wav: str = None) -> None:
         self.m_path: str = path_to_wav
         self.m_data: WavData = None
+        self.m_channels:int = 0
         self.m_audio_player = AudioPlayer()
         if self.m_path is not None:
             self.__readWav()
@@ -40,6 +44,12 @@ class WavFile:
         wav_writer.writeWav(path_to_output, self.m_data)
 
     def plotSamples(self):
+        # thread = threading.Thread(target=self.__plotSamples)
+        # thread.start()
+        # self.__plotSamples()
+        print("PLoting samples now")
+
+    def __plotSamples(self):
         if self.m_data == None:
             return
         number_of_channels =self.m_data.getNumberOfChannels()
@@ -49,7 +59,7 @@ class WavFile:
             self.__plotMono()
         else:
             raise TypeError("Error: channels number incorrect!")
-    
+
     def __plotMono(self):
         # style.use('dark_background')
         f, plt_arr = plt.subplots(1, sharex = True)
@@ -73,6 +83,9 @@ class WavFile:
         plt_arr[1].set_title("Right Channel")
 
         plt.show()
+
+    def getNumChanels(self)->int:
+        return self.m_data.m_num_channels
 
     def getAudioFrame(self):
         return self.m_audio_player.getCurrentFrame()
