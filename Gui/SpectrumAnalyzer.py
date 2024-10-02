@@ -18,14 +18,13 @@ class SpectrumAnalyzer:
         self.m_frequency_label = Label(self.m_master, text="Frequency: N/A", font=("Arial", 12)) # Label widget to display the frequency
         self.m_frequency_label.pack()
 
-        # Initialize previous amplitudes and a lock for thread safety
-        self.prev_amplitudes = None
-        self.lock = threading.Lock()
+        # Initialize previous amplitudes and a m_lock for thread safety
+        self.m_prev_amplitudes = None
+        self.m_lock = threading.Lock()
 
         self.m_spectrum_analyzer_thread:threading.Thread = None
         self.m_thread_flag:bool = False
         self.setAxes()
-
         
         self.fig.canvas.mpl_connect('motion_notify_event', self.on_mouse_move)# Connect the mouse motion event handler
 
@@ -36,7 +35,7 @@ class SpectrumAnalyzer:
         
     def stop(self)->None:
         self.m_thread_flag = False
-        self.resetAxes()
+        # self.resetAxes()
 
     def update_spectrum(self):
         while self.m_thread_flag:
@@ -72,27 +71,27 @@ class SpectrumAnalyzer:
     def get_plot_amplitude(self, fft_freq, fft_amplitude):
         """This function takes the current ampplitude and prev ones -> and return current amplitude with a bit of decay"""
         # Apply decay to the amplitudes
-        with self.lock:
-            if self.prev_amplitudes is None:
+        with self.m_lock:
+            if self.m_prev_amplitudes is None:
                 # Initialize previous amplitudes
-                self.prev_amplitudes = fft_amplitude.copy()
+                self.m_prev_amplitudes = fft_amplitude.copy()
             else:
                 # Apply decay
-                self.prev_amplitudes = self.apply_decay(self.prev_amplitudes, fft_amplitude, fft_freq)
+                self.m_prev_amplitudes = self.apply_decay(self.m_prev_amplitudes, fft_amplitude, fft_freq)
             # Use the decayed amplitudes for plotting
-            plot_amplitudes = self.prev_amplitudes.copy()
+            plot_amplitudes = self.m_prev_amplitudes.copy()
             return plot_amplitudes
 
-    def apply_decay(self, prev_amplitudes, new_amplitudes, frequencies):
+    def apply_decay(self, m_prev_amplitudes, new_amplitudes, frequencies):
         decay_rates = self.calculate_decay_rates(frequencies) # Define decay rates (higher frequencies decay faster)
 
         updated_amplitudes = np.zeros_like(new_amplitudes)
 
         for i in range(len(new_amplitudes)):
-            if new_amplitudes[i] >= prev_amplitudes[i]: # Amplitude increased, update directly
+            if new_amplitudes[i] >= m_prev_amplitudes[i]: # Amplitude increased, update directly
                 updated_amplitudes[i] = new_amplitudes[i]
             else: # Amplitude decreased, apply decay
-                updated_amplitudes[i] = prev_amplitudes[i] * decay_rates[i]
+                updated_amplitudes[i] = m_prev_amplitudes[i] * decay_rates[i]
                 if updated_amplitudes[i] < new_amplitudes[i]:# Ensure it doesn't go below the new amplitude
                     updated_amplitudes[i] = new_amplitudes[i]
         return updated_amplitudes
@@ -112,7 +111,7 @@ class SpectrumAnalyzer:
         normalized_freqs = (log_freqs - min_freq) / (max_freq - min_freq)
 
         # Invert so lower frequencies have lower normalized values
-        normalized_freqs = 1 - normalized_freqs
+        normalized_freqs = 0.45 - normalized_freqs
 
         # Map normalized frequencies to decay rates between 0.7 and 0.99
         decay_rates = 0.7 + 0.29 * normalized_freqs

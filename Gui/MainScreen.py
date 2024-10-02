@@ -19,7 +19,7 @@ class MainScreen:
         self.m_root.mainloop()
 
     def __setConfiguration(self):
-        self.m_root.geometry('1000x450')
+        self.m_root.geometry('809x500')
         self.m_root.resizable(width=False, height=False)
         self.m_menu_bar = MenuBar(self.m_root, self.handleWavSelection, self.handleWavPlot)
         self.m_spectrum_analyzer = SpectrumAnalyzer(self.m_root, self.m_wav_file)
@@ -28,6 +28,8 @@ class MainScreen:
         self.m_root.protocol("WM_DELETE_WINDOW", self.on_close)
 
     def on_play_click(self):
+        if self.m_wav_file.isAudioPlaying():
+            self.on_stop_click()
         self.m_spectrum_analyzer.start()
         if self.m_wav_file is None:
             return

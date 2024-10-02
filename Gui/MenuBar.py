@@ -47,8 +47,7 @@ class MenuBar:
         # Create a button for each effect
         for effect in effects:
             tk.Button(effect_window, text=effect, command=lambda e=effect: self.apply_effect(e)).pack()
-
-    
+ 
     def selectWavFile(self):
         """
         Open file explorer for the user to choose a WAV file.

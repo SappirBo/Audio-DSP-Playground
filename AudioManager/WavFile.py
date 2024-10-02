@@ -6,6 +6,8 @@ from .AudioPlayer import AudioPlayer
 from matplotlib import pyplot as plt
 from matplotlib import style
 import threading
+from multiprocessing import Process
+
 
 
 
