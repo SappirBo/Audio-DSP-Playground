@@ -3,6 +3,7 @@ from .MenuBar import MenuBar
 from .ControlButtons import ControlButtons
 from .SpectrumAnalyzer import SpectrumAnalyzer
 from AudioManager import WavFile
+import sys
 
 
 class MainScreen:
@@ -51,3 +52,4 @@ class MainScreen:
     def on_close(self):
         self.on_stop_click() 
         self.m_root.quit() 
+        sys.exit()

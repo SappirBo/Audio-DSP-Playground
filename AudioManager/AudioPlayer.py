@@ -29,7 +29,7 @@ class AudioPlayer:
     
     def playTrack(self):
         """play the specified WAV file"""
-        thread = threading.Thread(target=self.__play)
+        thread = threading.Thread(target=self.__play, daemon=True)
         thread.start()
 
     def __play(self):
@@ -39,7 +39,7 @@ class AudioPlayer:
         while pygame.mixer.music.get_busy(): 
             pygame.time.Clock().tick(ticking_value)
             self.m_current_track_time = pygame.mixer.music.get_pos() / milisec_to_seconds
-        self.m_current_track_time=-1
+        self.m_current_track_time = -1
 
     def stopTrack(self):
         """Stop the currently playing music."""
@@ -70,7 +70,6 @@ class AudioPlayer:
                 frame = (left_channel + right_channel) / 2
             return self.__timeToFrequncyDomain(frame)
 
-    
     def __timeToFrequncyDomain(self, buffer:np.ndarray)->tuple:
         fft_amplitude = None
         fft_freq   = None
