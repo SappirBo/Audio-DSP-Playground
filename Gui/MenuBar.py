@@ -3,11 +3,13 @@ import tkinter as tk
 import json
 
 class MenuBar:
-    def __init__(self, master: Tk, wav_select_callback, plot_wav_callback):
+    def __init__(self, master: Tk, wav_select_callback, plot_wav_callback, close_callback):
         self.m_wav_select_callback = wav_select_callback
         self.m_plot_wav_callback = plot_wav_callback
+        self.m_close_callback = close_callback
 
         self.m_selected_path = None
+        self.m_master = master
 
         self.m_menu_bar = Menu(master)
         master.config(menu=self.m_menu_bar)
@@ -26,6 +28,10 @@ class MenuBar:
         self.m_menu_bar.add_separator()
         self.m_menu_bar.add_command(label="Exit", command=master.quit)
     
+    def grace_exit(self):
+        self.m_close_callback()
+        # self.m_master.quit()
+
     def effects_command(self, code):
         if code == 0:
             print("Showing Effects...")
