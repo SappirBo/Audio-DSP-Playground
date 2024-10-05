@@ -15,8 +15,8 @@ class MenuBar:
         master.config(menu=self.m_menu_bar)
         self.m_menu_bar.add_command(label="Import Wav", command=self.selectWavFile)
         self.m_menu_bar.add_separator()
-        self.m_menu_bar.add_command(label="Show Amplitude", command=self.plotWavFile)
-        self.m_menu_bar.add_separator()
+        # self.m_menu_bar.add_command(label="Show Amplitude", command=self.plotWavFile)
+        # self.m_menu_bar.add_separator()
 
         effects_menu = Menu(self.m_menu_bar, tearoff=0)
         self.m_menu_bar.add_cascade(label="Effects", menu=effects_menu)
