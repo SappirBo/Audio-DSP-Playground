@@ -1,4 +1,6 @@
 import json
+from .EffectInterface import EffectInterface
+from .SimpleReverb import SimpleReverb
 
 
 def updateEffectsJson():
@@ -9,6 +11,7 @@ def updateEffectsJson():
     
 def getEffectsList() -> list[str]:
     effects_list = [
+        "Sappir",
         "BB Tubes",
         "API 2500",
         "SSL G-Channel",

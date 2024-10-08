@@ -46,8 +46,9 @@ class MainScreen:
     
     def handleWavSelection(self, wav_file_path: str):
         self.on_stop_click()
-        self.m_wav_file.setPathToWav(wav_file_path)
-
+        # self.m_wav_file.setPathToWav(wav_file_path)
+        self.m_wav_file.setPathToWav("/home/sappirb/code/Spectrum-Analyzer/tmp/test.wav")
+        
     def handleWavPlot(self):
         self.m_wav_file.plotSamples()
 

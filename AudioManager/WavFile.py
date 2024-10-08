@@ -49,7 +49,7 @@ class WavFile:
         # thread = threading.Thread(target=self.__plotSamples)
         # thread.start()
         # self.__plotSamples()
-        print("PLoting samples now")
+        print("Temporery Stoped")
 
     def __plotSamples(self):
         if self.m_data == None:
@@ -97,3 +97,6 @@ class WavFile:
 
     def getAudioSamplesPerFrame(self)->int:
         return self.m_audio_player.getSamplesPerFrame()
+    
+    def write_samples(self, new_samples: np.ndarray)-> None:
+        self.m_data.m_samples = new_samples
