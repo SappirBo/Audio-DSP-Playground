@@ -1,4 +1,7 @@
 import json
+from .EffectInterface import EffectInterface
+from .DigitalDelay import DigitalDelay
+from .Overdrive import Overdrive
 
 
 def updateEffectsJson():
@@ -9,6 +12,7 @@ def updateEffectsJson():
     
 def getEffectsList() -> list[str]:
     effects_list = [
+        "Sappir",
         "BB Tubes",
         "API 2500",
         "SSL G-Channel",
