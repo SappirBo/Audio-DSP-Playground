@@ -3,13 +3,16 @@ from .MenuBar import MenuBar
 from .ControlButtons import ControlButtons
 from .SpectrumAnalyzer import SpectrumAnalyzer
 from AudioManager import WavFile
+from EffectChain import EffectChain , WavEffectProcesor
 import sys
+import shutil
 
 
 class MainScreen:
     def __init__(self, wav_file:WavFile) -> None:
         self.m_root = Tk(className=" Audio Prodaction ")
         self.m_wav_file = wav_file
+        self.m_effect_chain = EffectChain()
         self.m_spectrum_analyzer:SpectrumAnalyzer = None
         self.m_control_buttons:ControlButtons = None
         self.__setConfiguration()
@@ -21,7 +24,7 @@ class MainScreen:
     def __setConfiguration(self):
         self.m_root.geometry('809x500')
         self.m_root.resizable(width=False, height=False)
-        self.m_menu_bar = MenuBar(self.m_root, self.handleWavSelection, self.handleWavPlot, self.on_close)
+        self.m_menu_bar = MenuBar(self.m_root, self.handleWavSelection, self.handleWavPlot, self.on_close, self.m_effect_chain)
         self.m_spectrum_analyzer = SpectrumAnalyzer(self.m_root, self.m_wav_file)
         self.m_control_buttons = ControlButtons(self.m_root, self.on_play_click, self.on_stop_click)
         self.m_control_buttons.pack(pady=20)
@@ -33,6 +36,8 @@ class MainScreen:
         self.m_spectrum_analyzer.start()
         if self.m_wav_file is None:
             return
+        wav_fx_proces =  WavEffectProcesor(self.m_wav_file,self.m_effect_chain)
+        wav_fx_proces.process_effect()
         self.m_wav_file.playAudio()
     
     def on_stop_click(self):
@@ -47,8 +52,12 @@ class MainScreen:
     def handleWavSelection(self, wav_file_path: str):
         self.on_stop_click()
         # self.m_wav_file.setPathToWav(wav_file_path)
-        self.m_wav_file.setPathToWav("/home/sappirb/code/Spectrum-Analyzer/tmp/test.wav")
-        
+        self.copy_file_to_tmp(wav_file_path)
+        self.m_wav_file.setPathToWav("/home/sappirb/code/Spectrum-Analyzer/tmp/tmp_file.wav")
+    
+    def copy_file_to_tmp(self,path:str):
+        shutil.copy(path, "/home/sappirb/code/Spectrum-Analyzer/tmp/tmp_file.wav")
+
     def handleWavPlot(self):
         self.m_wav_file.plotSamples()
 
@@ -56,3 +65,7 @@ class MainScreen:
         self.on_stop_click() 
         self.m_root.quit() 
         sys.exit()
+
+    # def start_effects_chain(self):
+
+

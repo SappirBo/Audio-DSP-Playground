@@ -41,9 +41,12 @@ class WavFile:
     def stopAudio(self):
         self.m_audio_player.stopTrack()
 
-    def exportWav(self, path_to_output:str):
+    def exportWav(self, path_to_output:str=None):
         wav_writer = WavWriter()
-        wav_writer.writeWav(path_to_output, self.m_data)
+        if path_to_output is None:
+            wav_writer.writeWav(self.m_path, self.m_data)
+        else:
+            wav_writer.writeWav(path_to_output, self.m_data)
 
     def plotSamples(self):
         # thread = threading.Thread(target=self.__plotSamples)
