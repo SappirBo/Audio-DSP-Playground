@@ -31,14 +31,14 @@ class Overdrive(EffectInterface):
         return samples_drived
         
     def __process_sample(self, sample:float):
-        
+        drive_amout, slop = self.scail_acoording_to_drive()
         sample_abs = abs(sample)
         if sample_abs == 0:
             return 0
         elif sample_abs <= 1/3:
-            return 2 * sample
+            return slop * sample
         elif sample_abs > 1/3 and sample_abs <= 2/3:
-            return (3 - math.pow(2 - 3*sample)) / 3
+            return (drive_amout - (2 - drive_amout * sample)**2) / drive_amout
         elif sample_abs > 2/3:
             return 1
         else:
@@ -52,3 +52,9 @@ class Overdrive(EffectInterface):
     def __scail_from_fraction_to_int(self, num):
         max_16byte_int = 32767
         return int(num* max_16byte_int)
+    
+    def scail_acoording_to_drive(self):
+        drive_amout = self.drive/10 + 3.0
+        cut_pont = (drive_amout - (2 - drive_amout * 1/3)**2 ) / drive_amout
+        slop = float(cut_pont / (1/3))
+        return drive_amout, slop
