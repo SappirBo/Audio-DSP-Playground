@@ -1,10 +1,10 @@
 import numpy as np
 from .EffectInterface import EffectInterface
 
-class SimpleDelay(EffectInterface):
+class DigitalDelay(EffectInterface):
     def __init__(self, feedback:float=0.5, time:float=0.5,  mix:float=0.5):
         """
-        Initialize the SimpleDelay effect with decay and mix parameters.
+        Initialize the DigitalDelay effect with decay and mix parameters.
         
         Parameters:
         feedback (float): Controls the feedback duration of the delay. Values  range from 0 to 1.
