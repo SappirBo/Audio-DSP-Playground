@@ -44,7 +44,6 @@ class Overdrive(EffectInterface):
         else:
             return 0
 
-
     def __scail_from_int_to_fraction(self, num):
         max_16byte_int = 32767
         return float(num/ max_16byte_int)
