@@ -1,6 +1,6 @@
 import json
 from .EffectInterface import EffectInterface
-from .SimpleReverb import SimpleReverb
+from .SimpleDelay import SimpleDelay
 
 
 def updateEffectsJson():
