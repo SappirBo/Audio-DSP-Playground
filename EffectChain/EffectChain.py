@@ -4,7 +4,7 @@ from AudioEffect import EffectInterface, Overdrive, DigitalDelay
 
 
 class EffectChain(EffectInterface):
-    def __init__(self, effect_configs: List[Dict]):
+    def __init__(self, effect_configs: List[Dict]=None):
         """
         Initialize the EffectChain with a list of effect configurations.
 
@@ -16,22 +16,30 @@ class EffectChain(EffectInterface):
         self.effects:list[EffectInterface] = []
         
         # Map effect names to their corresponding classes
-        effect_class_map = {
+        self.effect_class_map = {
             'DigitalDelay': DigitalDelay,
             'Overdrive': Overdrive,
         }
 
+        self.set_effect_config(effect_configs)
+
+    def set_effect_config(self, effect_configs: List[Dict]=None):
+        if effect_configs is None:
+            return
         for config in effect_configs:
-            effect_name = config.get('effect_name')
-            arguments = config.get('arguments', {})
-            effect_class = effect_class_map.get(effect_name)
+            self.add_effect(config)
 
-            if effect_class is None:
-                raise ValueError(f"Unknown effect name: {effect_name}")
+    def add_effect(self, config:Dict):
+        effect_name = config.get('effect_name')
+        arguments = config.get('arguments', {})
+        effect_class = self.effect_class_map.get(effect_name)
 
-            # Instantiate the effect with the provided arguments
-            effect_instance = effect_class(**arguments)
-            self.effects.append(effect_instance)
+        if effect_class is None:
+            raise ValueError(f"Unknown effect name: {effect_name}")
+
+        # Instantiate the effect with the provided arguments
+        effect_instance = effect_class(**arguments)
+        self.effects.append(effect_instance)
 
     def process(self, data: np.ndarray, rate: int = 44100):
         """
@@ -51,4 +59,5 @@ class EffectChain(EffectInterface):
 
         return processed_data
 
-
+    def remove_all(self)->None:
+        self.effects = []
