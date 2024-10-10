@@ -44,7 +44,6 @@ def get_all_files_in_this_dir() -> list:
     for path in os.listdir(dir_path):
         if os.path.isfile(os.path.join(dir_path, path)): # check if current path is a file
             res.append(path)
-    print(res)
     return res
 
 def map_out_interface(files_list:list) -> None:
