@@ -10,18 +10,10 @@ class DigitalDelay(EffectInterface):
         feedback (float): Controls the feedback duration of the delay. Values  range from 0 to 1.
         mix (float): Controls the mix between the original and reverberated sound. Values  range from 0 to 1.
         """
-        self.feedback = self.set_between_0_and_1(feedback)
-        self.time = time
-        self.mix = self.set_between_0_and_1(mix)
+        self.feedback = self.set_between_range(0, 1, feedback)
+        self.time = self.set_between_range(0, 10,time)
+        self.mix = self.set_between_range(1, 0, mix)
         self.delay = np.zeros_like(44100*1)
-
-    def set_between_0_and_1(self, value:float) -> float:
-        if value > 1:
-            return 1
-        elif value < 0: 
-            return 0
-        else: 
-            return value
 
     def process(self, data, rate=44100):
         """

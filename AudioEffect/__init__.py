@@ -1,6 +1,7 @@
 import json
 from .EffectInterface import EffectInterface
 from .DigitalDelay import DigitalDelay
+from .Overdrive import Overdrive
 
 
 def updateEffectsJson():
