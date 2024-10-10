@@ -1,8 +1,5 @@
 import numpy as np
 from typing import List, Dict
-# from .EffectInterface import EffectInterface
-# from .DigitalDelay import DigitalDelay
-# from .Overdrive import Overdrive
 from AudioEffect import EffectInterface, Overdrive, DigitalDelay
 
 
@@ -17,6 +14,7 @@ class EffectChain(EffectInterface):
             - 'arguments': A dict of arguments to pass to the effect class constructor
         """
         self.effects:list[EffectInterface] = []
+        
         # Map effect names to their corresponding classes
         effect_class_map = {
             'DigitalDelay': DigitalDelay,
@@ -52,3 +50,5 @@ class EffectChain(EffectInterface):
             processed_data = effect.process(processed_data, rate)
 
         return processed_data
+
+
