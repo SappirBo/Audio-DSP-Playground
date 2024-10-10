@@ -12,7 +12,7 @@ class DigitalDelay(EffectInterface):
         """
         self.feedback = self.set_between_range(0, 1, feedback)
         self.time = self.set_between_range(0, 10,time)
-        self.mix = self.set_between_range(1, 0, mix)
+        self.mix = self.set_between_range(0,1, mix)
         self.delay = np.zeros_like(44100*1)
 
     def process(self, data, rate=44100):
@@ -35,5 +35,5 @@ class DigitalDelay(EffectInterface):
             delay_index += 1
             if delay_index == len(self.delay):
                 delay_index = 0
-        
+            
         return samples_delayed

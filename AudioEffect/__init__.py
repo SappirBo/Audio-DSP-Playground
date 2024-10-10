@@ -55,5 +55,4 @@ def remove_py_suffix(files_list: list) -> None:
         if files_list[i].endswith('.py'):
             files_list[i] = files_list[i][:-3]
 
-
 updateEffectsJson()
