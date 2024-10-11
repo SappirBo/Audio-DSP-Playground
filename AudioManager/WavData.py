@@ -3,15 +3,15 @@ import numpy as np
 class WavData:
     def __init__(self, samples, frame_rate, num_channels, sampwidth) -> None:
         self.m_samples = samples
-        self.m_frame_rate = frame_rate
+        self.m_sample_rate = frame_rate
         self.m_num_channels = num_channels
         self.m_sampwidth = sampwidth
     
-    def getSamples(self):
+    def getSamples(self) ->np.ndarray:
         return self.m_samples
     
-    def getFrameRate(self):
-        return self.m_frame_rate
+    def getSampleRate(self):
+        return self.m_sample_rate
     
     def getNumberOfChannels(self):
         return self.m_num_channels
@@ -25,7 +25,7 @@ class WavData:
         data_str += 'sample type'
         data_str += str(type(self.m_samples)) + '\n'
         data_str += 'Frame Rate: '
-        data_str += str(self.m_frame_rate) + '\n'
+        data_str += str(self.m_sample_rate) + '\n'
         data_str += 'Number Of Channels: '
         data_str += str(self.m_num_channels) + '\n'
         data_str += 'Sample Width: '

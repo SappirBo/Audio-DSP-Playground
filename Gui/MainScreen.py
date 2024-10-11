@@ -12,6 +12,7 @@ class MainScreen:
     def __init__(self, wav_file:WavFile) -> None:
         self.m_root = Tk(className=" Audio Prodaction ")
         self.m_wav_file = wav_file
+        self.m_org_path:str = ""
         self.m_effect_chain = EffectChain()
         self.m_spectrum_analyzer:SpectrumAnalyzer = None
         self.m_control_buttons:ControlButtons = None
@@ -36,8 +37,7 @@ class MainScreen:
         self.m_spectrum_analyzer.start()
         if self.m_wav_file is None:
             return
-        wav_fx_proces =  WavEffectProcesor(self.m_wav_file,self.m_effect_chain)
-        wav_fx_proces.process_effect()
+        self.m_wav_file.update_effect_chain(self.m_effect_chain)
         self.m_wav_file.playAudio()
     
     def on_stop_click(self):
@@ -51,13 +51,12 @@ class MainScreen:
     
     def handleWavSelection(self, wav_file_path: str):
         self.on_stop_click()
-        # self.m_wav_file.setPathToWav(wav_file_path)
-        self.copy_file_to_tmp(wav_file_path)
-        self.m_wav_file.setPathToWav("/home/sappirb/code/Spectrum-Analyzer/tmp/tmp_file.wav")
+        self.m_wav_file.setPathToWav(wav_file_path)
     
     def copy_file_to_tmp(self,path:str):
         shutil.copy(path, "/home/sappirb/code/Spectrum-Analyzer/tmp/tmp_file.wav")
 
+    ## NOT WORKING RIGHT NOW
     def handleWavPlot(self):
         self.m_wav_file.plotSamples()
 
@@ -66,6 +65,5 @@ class MainScreen:
         self.m_root.quit() 
         sys.exit()
 
-    # def start_effects_chain(self):
 
 

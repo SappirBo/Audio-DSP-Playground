@@ -11,9 +11,6 @@ class EffectInterface(ABC):
         Parameters:
         data (numpy.array): The audio data to process.
         rate (int): The sampling rate of the audio data.
-        
-        Returns:
-        numpy.array: The processed audio data.
         """
         pass
 

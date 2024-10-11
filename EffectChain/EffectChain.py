@@ -48,16 +48,12 @@ class EffectChain(EffectInterface):
         Parameters:
         data (numpy.array): The audio data to process.
         rate (int): The sampling rate of the audio data.
-
-        Returns:
-        numpy.array: The processed audio data.
         """
-        processed_data = data.copy()
-
+        print(self.effects)
         for effect in self.effects:
-            processed_data = effect.process(processed_data, rate)
-
-        return processed_data
+            print("start fx process")
+            effect.process(data, rate)
+            print("end fx process")
 
     def remove_all(self)->None:
         self.effects = []

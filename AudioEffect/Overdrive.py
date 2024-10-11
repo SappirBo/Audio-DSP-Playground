@@ -9,7 +9,26 @@ class Overdrive(EffectInterface):
         self.drive = self.set_between_range(0,10,drive)
         self.level = self.set_between_range(0,10,level)
 
-    def process(self, data: np.ndarray, rate: int = 44100):
+    def process(self, data: np.ndarray, rate: int = 44100)->None:
+        # samples_drived: np.ndarray = np.zeros_like(data)
+        for i in range(len(data)):
+            # Extract left and right channels
+            left_channel = data[i][0]
+            right_channel = data[i][1]
+            
+            left_channel = self.__scail_from_int_to_fraction(left_channel)
+            right_channel = self.__scail_from_int_to_fraction(right_channel)
+
+            # Process each channel
+            drived_left = self.__process_sample(left_channel)
+            drived_right = self.__process_sample(right_channel)
+
+            drived_left = self.__scail_from_fraction_to_int(drived_left)
+            drived_right = self.__scail_from_fraction_to_int(drived_right)
+
+            data[i] = [drived_left, drived_right]
+            
+    def process_and_return_new(self, data: np.ndarray, rate: int = 44100):
         samples_drived: np.ndarray = np.zeros_like(data)
         for i in range(len(data)):
             # Extract left and right channels

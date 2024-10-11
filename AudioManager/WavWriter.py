@@ -10,12 +10,12 @@ class WavWriter:
         if data is None:
             raise TypeError("Error writing a Wav File: data is None!")
         samples    = data.getSamples()
-        framerate  = data.getFrameRate()
+        samplerate  = data.getSampleRate()
         n_channels = data.getNumberOfChannels()
         sampwidth  = data.getSampwidth()
 
         # Open the WAV file
         with wave.open(file_path, 'wb') as wav_file:
             # Set audio parameters and write data
-            wav_file.setparams((n_channels, sampwidth, framerate, samples.shape[0], 'NONE', 'Uncompressed'))
+            wav_file.setparams((n_channels, sampwidth, samplerate, samples.shape[0], 'NONE', 'Uncompressed'))
             wav_file.writeframes(samples.tobytes())

@@ -10,6 +10,8 @@ class WavEffectProcesor:
         pass
 
     def process_effect(self):
+        if self.wav_file is None or self.effect_chain is None:
+            return
         wav_data = self.wav_file.m_data
         samples = wav_data.getSamples()
         new_samples = self.effect_chain.process(samples,rate=44100)

@@ -2,7 +2,9 @@ import numpy as np
 from .WavReader import WavReader
 from .WavData import WavData
 from .WavWriter import WavWriter
-from .AudioPlayer import AudioPlayer
+# from .AudioPlayer import AudioPlayer 
+from .Player import Player
+from EffectChain import EffectChain
 from matplotlib import pyplot as plt
 from matplotlib import style
 import threading
@@ -15,8 +17,12 @@ class WavFile:
     def __init__(self, path_to_wav: str = None) -> None:
         self.m_path: str = path_to_wav
         self.m_data: WavData = None
+        self.m_effect_chain:EffectChain = None
         self.m_channels:int = 0
-        self.m_audio_player = AudioPlayer()
+        self.m_samples:np.ndarray = None
+        self.m_sample_rate:int = 44100
+        # self.m_audio_player = AudioPlayer()
+        self.m_audio_player = Player()
         if self.m_path is not None:
             self.__readWav()
     
@@ -31,11 +37,21 @@ class WavFile:
         self.m_data = wav_reader.read_wav(self.m_path)
         if self.m_data == None:
             raise TypeError("Error: Samples is empty, please try again")
+        self.m_samples, self.m_sample_rate, self.m_channels = self.m_audio_player.get_wav_samples_in_sd_format(self.m_path)
+        # self.m_samples.flags.writeable = True
+        # print(self.m_samples.flags.writeable)
+        # self.m_samples.setflags(write=1)
 
     def playAudio(self):
         if not self.m_path:
             return 
-        self.m_audio_player.loadTrack(self.m_path)
+        print("Before Process")
+        samples = self.m_samples.copy()
+        samples.setflags(write=1)
+        self.m_effect_chain.process(samples, self.m_sample_rate)
+        print("After Process")
+
+        self.m_audio_player.loadSamples(samples, self.m_sample_rate, self.m_channels)
         self.m_audio_player.playTrack()
     
     def stopAudio(self):
@@ -103,3 +119,6 @@ class WavFile:
     
     def write_samples(self, new_samples: np.ndarray)-> None:
         self.m_data.m_samples = new_samples
+
+    def update_effect_chain(self, effect_chain:EffectChain)->None:
+        self.m_effect_chain = effect_chain
