@@ -25,8 +25,6 @@ class DigitalDelay(EffectInterface):
         """
         self.delay_buffer = np.zeros_like(data)
         self.delay_buffer = self.delay_buffer[0: int(44100 * self.time)]
-        # samples_delayed: np.ndarray = np.zeros_like(data)
-        # data.setflags(write=1)
         delay_index = 0
         for i in range(len(data)):
             new_sample =  data[i] * (1 - self.mix) +  self.delay_buffer[delay_index] * (self.mix)

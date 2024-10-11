@@ -39,19 +39,19 @@ effect_configs = [
 ]
 effect_chain = EffectChain(effect_configs)
 
-wav.update_effect_chain(effect_chain)
+# wav.update_effect_chain(effect_chain)
 
-# effect_chain.process(audio_array)
+effect_chain.process(audio_array)
 
-wav.playAudio()
+# wav.playAudio()
 
 # delay = DigitalDelay()
 
 # delay.process(audio_array)
 
 # Play the audio
-# sd.play(audio_array, samplerate=sample_rate)
-# sd.wait()  # Wait until the audio playback is finished
+sd.play(audio_array, samplerate=sample_rate)
+sd.wait()  # Wait until the audio playback is finished
 
 
 # player = Player()

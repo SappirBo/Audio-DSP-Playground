@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from matplotlib import style
 import threading
 from multiprocessing import Process
-
+from multiprocessing import shared_memory
 
 
 
@@ -38,22 +38,66 @@ class WavFile:
         if self.m_data == None:
             raise TypeError("Error: Samples is empty, please try again")
         self.m_samples, self.m_sample_rate, self.m_channels = self.m_audio_player.get_wav_samples_in_sd_format(self.m_path)
-        # self.m_samples.flags.writeable = True
-        # print(self.m_samples.flags.writeable)
-        # self.m_samples.setflags(write=1)
+
+
+    # def playAudio(self):
+    #     if not self.m_path:
+    #         return 
+    #     thread = threading.Thread(target=self.__process_and_play_audio, daemon=True)
+    #     thread.start()
+        
+    # def __process_and_play_audio(self):
+    #     samples = self.m_samples.copy()
+    #     samples.setflags(write=1)
+
+    #     self.m_effect_chain.process(samples, self.m_sample_rate)
+
+    #     self.m_audio_player.loadSamples(samples, self.m_sample_rate, self.m_channels)
+    #     self.m_audio_player.playTrack()
 
     def playAudio(self):
         if not self.m_path:
             return 
-        print("Before Process")
+
         samples = self.m_samples.copy()
         samples.setflags(write=1)
-        self.m_effect_chain.process(samples, self.m_sample_rate)
-        print("After Process")
+
+        # Create shared memory block
+        shm = shared_memory.SharedMemory(create=True, size=samples.nbytes)
+        # Create a numpy array backed by shared memory
+        shm_samples = np.ndarray(samples.shape, dtype=samples.dtype, buffer=shm.buf)
+        # Copy data into shared memory
+        np.copyto(shm_samples, samples)
+
+        # Start process to process samples
+        p = Process(target=self.__process_samples_in_process, args=(samples.shape, samples.dtype, shm.name))
+        p.start()
+        p.join()
+
+        # After processing, read from shared memory
+        processed_samples = np.ndarray(samples.shape, dtype=samples.dtype, buffer=shm.buf)
+
+        # Copy processed data back to samples
+        samples = processed_samples.copy()
+
+        # Close and unlink shared memory
+        shm.close()
+        shm.unlink()
 
         self.m_audio_player.loadSamples(samples, self.m_sample_rate, self.m_channels)
         self.m_audio_player.playTrack()
-    
+
+    def __process_samples_in_process(self, shape, dtype, shm_name):
+        # Attach to existing shared memory
+        shm = shared_memory.SharedMemory(name=shm_name)
+        samples = np.ndarray(shape, dtype=dtype, buffer=shm.buf)
+
+        # Perform processing (modifies samples in place)
+        self.m_effect_chain.process(samples, self.m_sample_rate)
+
+        # Close shared memory in worker process
+        shm.close()
+
     def stopAudio(self):
         self.m_audio_player.stopTrack()
 
