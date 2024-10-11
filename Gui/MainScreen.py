@@ -4,8 +4,10 @@ from .ControlButtons import ControlButtons
 from .SpectrumAnalyzer import SpectrumAnalyzer
 from AudioManager import WavFile
 from EffectChain import EffectChain , WavEffectProcesor
+
 import sys
 import shutil
+from multiprocessing import Process
 
 
 class MainScreen:
@@ -53,9 +55,6 @@ class MainScreen:
         self.on_stop_click()
         self.m_wav_file.setPathToWav(wav_file_path)
     
-    def copy_file_to_tmp(self,path:str):
-        shutil.copy(path, "/home/sappirb/code/Spectrum-Analyzer/tmp/tmp_file.wav")
-
     ## NOT WORKING RIGHT NOW
     def handleWavPlot(self):
         self.m_wav_file.plotSamples()
