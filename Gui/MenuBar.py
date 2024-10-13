@@ -15,9 +15,9 @@ class MenuBar:
 
         self.m_menu_bar = Menu(master)
         master.config(menu=self.m_menu_bar)
-        self.m_menu_bar.add_command(label="Import Wav", command=self.selectWavFile)
+        self.m_menu_bar.add_command(label="Import Wav", command=self.select_wav_file)
         self.m_menu_bar.add_separator()
-        # self.m_menu_bar.add_command(label="Show Amplitude", command=self.plotWavFile)
+        # self.m_menu_bar.add_command(label="Show Amplitude", command=self.plot_wav_file)
         # self.m_menu_bar.add_separator()
 
         effects_menu = Menu(self.m_menu_bar, tearoff=0)
@@ -71,7 +71,7 @@ class MenuBar:
             effect_data = effects.get(effect_name, {})
         EffectWindow(self.m_master, effect_name, effect_data, self.add_effect)
         
-    def selectWavFile(self):
+    def select_wav_file(self):
         """
         69Open file explorer for the user to choose a WAV file.
         """
@@ -80,7 +80,7 @@ class MenuBar:
         if wav_file_path:
             self.m_wav_select_callback(wav_file_path)
 
-    def plotWavFile(self):
+    def plot_wav_file(self):
         self.m_plot_wav_callback()
 
     def add_effect(self, config:dict):

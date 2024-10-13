@@ -6,7 +6,7 @@ class WavWriter:
     def __init__(self) -> None:
         pass
 
-    def writeWav(self, file_path, data: WavData):
+    def write_wav(self, file_path, data: WavData):
         if data is None:
             raise TypeError("Error writing a Wav File: data is None!")
         samples    = data.getSamples()

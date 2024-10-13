@@ -3,5 +3,6 @@
 /AudioManager/__pycache__/
 /AudioEffect/__pycache__/
 /Gui/__pycache__/
+/EffectChain/__pycache__/
 
 output/

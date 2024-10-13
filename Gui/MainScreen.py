@@ -3,11 +3,10 @@ from .MenuBar import MenuBar
 from .ControlButtons import ControlButtons
 from .SpectrumAnalyzer import SpectrumAnalyzer
 from AudioManager import WavFile
-from EffectChain import EffectChain , WavEffectProcesor
+from EffectChain import EffectChain 
 
 import sys
-import shutil
-from multiprocessing import Process
+
 
 
 class MainScreen:
@@ -27,37 +26,37 @@ class MainScreen:
     def __setConfiguration(self):
         self.m_root.geometry('809x500')
         self.m_root.resizable(width=False, height=False)
-        self.m_menu_bar = MenuBar(self.m_root, self.handleWavSelection, self.handleWavPlot, self.on_close, self.m_effect_chain)
+        self.m_menu_bar = MenuBar(self.m_root, self.handle_wav_selection, self.handle_wav_plot, self.on_close, self.m_effect_chain)
         self.m_spectrum_analyzer = SpectrumAnalyzer(self.m_root, self.m_wav_file)
         self.m_control_buttons = ControlButtons(self.m_root, self.on_play_click, self.on_stop_click)
         self.m_control_buttons.pack(pady=20)
         self.m_root.protocol("WM_DELETE_WINDOW", self.on_close)
 
     def on_play_click(self):
-        if self.m_wav_file.isAudioPlaying():
+        if self.m_wav_file.is_audio_playing():
             self.on_stop_click()
         self.m_spectrum_analyzer.start()
         if self.m_wav_file is None:
             return
         self.m_wav_file.update_effect_chain(self.m_effect_chain)
-        self.m_wav_file.playAudio()
+        self.m_wav_file.play_audio()
     
     def on_stop_click(self):
         if self.m_wav_file is None:
             return
-        self.m_wav_file.stopAudio()
+        self.m_wav_file.stop_audio()
         self.m_spectrum_analyzer.stop()
     
     def on_button_click(self):
         print("Button clicked!")
     
-    def handleWavSelection(self, wav_file_path: str):
+    def handle_wav_selection(self, wav_file_path: str):
         self.on_stop_click()
-        self.m_wav_file.setPathToWav(wav_file_path)
+        self.m_wav_file.set_path_to_wav(wav_file_path)
     
     ## NOT WORKING RIGHT NOW
-    def handleWavPlot(self):
-        self.m_wav_file.plotSamples()
+    def handle_wav_plot(self):
+        self.m_wav_file.plot_samples()
 
     def on_close(self):
         self.on_stop_click() 

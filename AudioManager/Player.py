@@ -24,7 +24,7 @@ class Player:
             channels = 1
         return samples, samplerate, channels
 
-    def loadSamples(self, samples: np.ndarray, sampling_rate: int, channels: int = None):
+    def load_samples(self, samples: np.ndarray, sampling_rate: int, channels: int = None):
         """Load a track from a NumPy array of samples."""
         self.m_samples = samples
         self.m_sampling_rate = sampling_rate
@@ -37,7 +37,7 @@ class Player:
                 self.m_channels = 1
         print("Track loaded from samples.")
 
-    def playTrack(self):
+    def play_track(self):
         """Play the loaded track."""
         if self.m_samples is None:
             print("No track loaded.")
@@ -81,7 +81,7 @@ class Player:
             while self.m_is_playing:
                 sd.sleep(100)
 
-    def stopTrack(self):
+    def stop_track(self):
         """Stop the currently playing music."""
         self.m_is_playing = False
         if self.m_stream:
@@ -91,11 +91,11 @@ class Player:
         self.m_current_frame_index = 0
         self.m_current_track_time = -1
 
-    def pauseTrack(self):
+    def pause_track(self):
         """Pause the currently playing music."""
         self.m_is_playing = False
 
-    def unpauseTrack(self):
+    def unpause_track(self):
         """Resume playing the paused music."""
         if not self.m_is_playing and self.m_current_frame_index < len(self.m_samples):
             self.m_is_playing = True
@@ -134,8 +134,8 @@ class Player:
             while self.m_is_playing:
                 sd.sleep(100)
 
-    def getCurrentFrame(self):
-        if not self.isPlaying():
+    def get_current_frame(self):
+        if not self.is_playing():
             return None
         start_point = self.m_current_frame_index
         end_point = start_point + self.m_samples_per_frame
@@ -145,9 +145,9 @@ class Player:
         if self.m_channels > 1:
             # Convert stereo to mono by averaging the channels
             frame = frame.mean(axis=1)
-        return self.__timeToFrequncyDomain(frame)
+        return self.__time_to_frequncy_domain(frame)
 
-    def __timeToFrequncyDomain(self, buffer: np.ndarray) -> tuple:
+    def __time_to_frequncy_domain(self, buffer: np.ndarray) -> tuple:
         fft_amplitude = None
         fft_freq = None
         if len(buffer) > 0:
@@ -156,10 +156,10 @@ class Player:
             fft_amplitude = 2 * np.abs(fft_result) / self.m_samples_per_frame
         return fft_amplitude, fft_freq
 
-    def isPlaying(self) -> bool:
+    def is_playing(self) -> bool:
         return self.m_is_playing
 
-    def splitChannels(self) -> tuple:
+    def split_channels(self) -> tuple:
         if self.m_channels > 1:
             left_channel = self.m_samples[:, 0]
             right_channel = self.m_samples[:, 1]
@@ -171,5 +171,5 @@ class Player:
             print("Length of Right samples: ", len(right_channel), "| length/44100 =", len(right_channel) / self.m_sampling_rate)
         return left_channel, right_channel
 
-    def getSamplesPerFrame(self) -> int:
+    def get_samples_per_frame(self) -> int:
         return self.m_samples_per_frame

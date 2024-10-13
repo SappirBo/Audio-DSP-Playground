@@ -17,5 +17,5 @@ class WavEffectProcesor:
         new_samples = self.effect_chain.process(samples,rate=44100)
 
         self.wav_file.write_samples(new_samples)
-        self.wav_file.exportWav()
+        self.wav_file.export_wav()
 

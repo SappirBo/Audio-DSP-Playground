@@ -24,7 +24,7 @@ class SpectrumAnalyzer:
 
         self.m_spectrum_analyzer_thread:threading.Thread = None
         self.m_thread_flag:bool = False
-        self.setAxes()
+        self.set_axes()
         
         self.fig.canvas.mpl_connect('motion_notify_event', self.on_mouse_move)# Connect the mouse motion event handler
 
@@ -35,21 +35,21 @@ class SpectrumAnalyzer:
         
     def stop(self)->None:
         self.m_thread_flag = False
-        # self.resetAxes()
+        # self.reset_axes()
 
     def update_spectrum(self):
         while self.m_thread_flag:
-            while self.m_audio_source.isAudioPlaying():
-                result = self.m_audio_source.getAudioFrame()
+            while self.m_audio_source.is_audio_playing():
+                result = self.m_audio_source.get_audio_frame()
                 if result is None:
                     continue
                 fft_amplitude, fft_freq = result
                 if fft_freq is not None and fft_amplitude is not None:
-                    self.setAxes(fft_freq, fft_amplitude)
+                    self.set_axes(fft_freq, fft_amplitude)
                     self.m_canvas.draw()
             continue
 
-    def setAxes(self, fft_freq=None, fft_amplitude=None)->None:
+    def set_axes(self, fft_freq=None, fft_amplitude=None)->None:
         self.m_ax.clear()
         if fft_freq is not None and fft_amplitude is not None:
             self.filter_non_positive(fft_freq, fft_amplitude)
@@ -60,7 +60,7 @@ class SpectrumAnalyzer:
             self.m_ax.plot(fft_freq, plot_amplitudes, color=blue, lw=1.5)
             self.m_ax.fill_between(fft_freq, plot_amplitudes, color=blue, alpha=0.3)
             self.m_ax.set_xscale('log')
-        self.__setAxesGrid()
+        self.__set_axesGrid()
 
     def filter_non_positive(self, fft_freq, fft_amplitude):
         # Filter out non-positive frequencies
@@ -118,11 +118,11 @@ class SpectrumAnalyzer:
 
         return decay_rates
 
-    def resetAxes(self)->None:
+    def reset_axes(self)->None:
         self.m_ax.clear()
-        self.__setAxesGrid()
+        self.__set_axesGrid()
         
-    def __setAxesGrid(self)->None:
+    def __set_axesGrid(self)->None:
         self.m_ax.margins(0, 0.1)
         self.m_ax.grid(which='both', axis='both')
         self.m_ax.set_xscale('log')

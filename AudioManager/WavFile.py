@@ -24,15 +24,15 @@ class WavFile:
         # self.m_audio_player = AudioPlayer()
         self.m_audio_player = Player()
         if self.m_path is not None:
-            self.__readWav()
+            self.__read_wav()
     
-    def setPathToWav(self,path_to_wav: str = None) -> None:
+    def set_path_to_wav(self,path_to_wav: str = None) -> None:
         if path_to_wav is None:
             return
         self.m_path = path_to_wav
-        self.__readWav()
+        self.__read_wav()
 
-    def __readWav(self) -> None:
+    def __read_wav(self) -> None:
         wav_reader = WavReader()
         self.m_data = wav_reader.read_wav(self.m_path)
         if self.m_data == None:
@@ -40,7 +40,7 @@ class WavFile:
         self.m_samples, self.m_sample_rate, self.m_channels = self.m_audio_player.get_wav_samples_in_sd_format(self.m_path)
 
 
-    # def playAudio(self):
+    # def play_audio(self):
     #     if not self.m_path:
     #         return 
     #     thread = threading.Thread(target=self.__process_and_play_audio, daemon=True)
@@ -52,10 +52,10 @@ class WavFile:
 
     #     self.m_effect_chain.process(samples, self.m_sample_rate)
 
-    #     self.m_audio_player.loadSamples(samples, self.m_sample_rate, self.m_channels)
-    #     self.m_audio_player.playTrack()
+    #     self.m_audio_player.load_samples(samples, self.m_sample_rate, self.m_channels)
+    #     self.m_audio_player.play_track()
 
-    def playAudio(self):
+    def play_audio(self):
         if not self.m_path:
             return 
 
@@ -84,8 +84,8 @@ class WavFile:
         shm.close()
         shm.unlink()
 
-        self.m_audio_player.loadSamples(samples, self.m_sample_rate, self.m_channels)
-        self.m_audio_player.playTrack()
+        self.m_audio_player.load_samples(samples, self.m_sample_rate, self.m_channels)
+        self.m_audio_player.play_track()
 
     def __process_samples_in_process(self, shape, dtype, shm_name):
         # Attach to existing shared memory
@@ -98,34 +98,34 @@ class WavFile:
         # Close shared memory in worker process
         shm.close()
 
-    def stopAudio(self):
-        self.m_audio_player.stopTrack()
+    def stop_audio(self):
+        self.m_audio_player.stop_track()
 
-    def exportWav(self, path_to_output:str=None):
+    def export_wav(self, path_to_output:str=None):
         wav_writer = WavWriter()
         if path_to_output is None:
-            wav_writer.writeWav(self.m_path, self.m_data)
+            wav_writer.write_wav(self.m_path, self.m_data)
         else:
-            wav_writer.writeWav(path_to_output, self.m_data)
+            wav_writer.write_wav(path_to_output, self.m_data)
 
-    def plotSamples(self):
-        # thread = threading.Thread(target=self.__plotSamples)
+    def plot_samples(self):
+        # thread = threading.Thread(target=self.__plot_samples)
         # thread.start()
-        # self.__plotSamples()
+        # self.__plot_samples()
         print("Temporery Stoped")
 
-    def __plotSamples(self):
+    def __plot_samples(self):
         if self.m_data == None:
             return
         number_of_channels =self.m_data.getNumberOfChannels()
         if number_of_channels == 2:
-            self.__plotStereo()
+            self.__plot_stereo()
         elif number_of_channels == 1:
-            self.__plotMono()
+            self.__plot_mono()
         else:
             raise TypeError("Error: channels number incorrect!")
 
-    def __plotMono(self):
+    def __plot_mono(self):
         # style.use('dark_background')
         f, plt_arr = plt.subplots(1, sharex = True)
         f.suptitle(self.m_path)
@@ -134,7 +134,7 @@ class WavFile:
 
         plt.show()
     
-    def __plotStereo(self):
+    def __plot_stereo(self):
         # style.use('dark_background')
         f, plt_arr = plt.subplots(2, sharex = True)
         f.suptitle(self.m_path)
@@ -149,17 +149,17 @@ class WavFile:
 
         plt.show()
 
-    def getNumChanels(self)->int:
+    def get_num_chanels(self)->int:
         return self.m_data.m_num_channels
 
-    def getAudioFrame(self):
-        return self.m_audio_player.getCurrentFrame()
+    def get_audio_frame(self):
+        return self.m_audio_player.get_current_frame()
 
-    def isAudioPlaying(self) -> bool:
-        return self.m_audio_player.isPlaying()
+    def is_audio_playing(self) -> bool:
+        return self.m_audio_player.is_playing()
 
-    def getAudioSamplesPerFrame(self)->int:
-        return self.m_audio_player.getSamplesPerFrame()
+    def get_audio_samples_per_frame(self)->int:
+        return self.m_audio_player.get_samples_per_frame()
     
     def write_samples(self, new_samples: np.ndarray)-> None:
         self.m_data.m_samples = new_samples

@@ -27,7 +27,7 @@
 #         self.initRawSamplesOfAudio()
 #         print(f"Loaded: {self.m_track}")
     
-#     def playTrack(self):
+#     def play_track(self):
 #         """play the specified WAV file"""
 #         thread = threading.Thread(target=self.__play, daemon=True)
 #         thread.start()
@@ -41,20 +41,20 @@
 #             self.m_current_track_time = pygame.mixer.music.get_pos() / milisec_to_seconds
 #         self.m_current_track_time = -1
 
-#     def stopTrack(self):
+#     def stop_track(self):
 #         """Stop the currently playing music."""
 #         pygame.mixer.music.stop()
 
-#     def pauseTrack(self):
+#     def pause_track(self):
 #         """Pause the currently playing music."""
 #         pygame.mixer.music.pause()
 
-#     def unpauseTrack(self):
+#     def unpause_track(self):
 #         """Resume playing the paused music."""
 #         pygame.mixer.music.unpause()
 
-#     def getCurrentFrame(self) -> tuple:
-#         if not self.isPlaying():
+#     def get_current_frame(self) -> tuple:
+#         if not self.is_playing():
 #             return None
 #         if self.m_sound_object:
 #             # Adjust for number of channels
@@ -68,9 +68,9 @@
 #                 left_channel = frame[0::2]
 #                 right_channel = frame[1::2]
 #                 frame = (left_channel + right_channel) / 2
-#             return self.__timeToFrequncyDomain(frame)
+#             return self.__time_to_frequncy_domain(frame)
 
-#     def __timeToFrequncyDomain(self, buffer:np.ndarray)->tuple:
+#     def __time_to_frequncy_domain(self, buffer:np.ndarray)->tuple:
 #         fft_amplitude = None
 #         fft_freq   = None
 #         if len(buffer) > 0:
@@ -79,7 +79,7 @@
 #             fft_amplitude = 2 * np.abs(fft_result) / self.m_samples_per_frame
 #         return fft_amplitude, fft_freq
   
-#     def isPlaying(self) -> bool:
+#     def is_playing(self) -> bool:
 #         return pygame.mixer.music.get_busy()
     
 #     def initRawSamplesOfAudio(self):
@@ -91,13 +91,13 @@
 #         samples = np.frombuffer(raw_audio, dtype=np.int16)
 #         self.m_samples = samples
 
-#     def splitChannels(self) -> tuple:
+#     def split_channels(self) -> tuple:
 #         left_channel  = self.m_samples[0::2]
 #         right_channel = self.m_samples[1::2]
 #         print("length of Left samples: ",len(left_channel),"| length/44100 =", len(left_channel)/44100)
 #         print("length of Right samples: ",len(right_channel),"| length/44100 =", len(right_channel)/44100)
 #         return left_channel,right_channel
 
-#     def getSamplesPerFrame(self)->int:
+#     def get_samples_per_frame(self)->int:
 #         return self.m_samples_per_frame
         

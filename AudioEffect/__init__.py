@@ -4,13 +4,13 @@ from .DigitalDelay import DigitalDelay
 from .Overdrive import Overdrive
 import os
 
-def updateEffectsJson():
-    effects_list = getEffectsList()
+def update_effects_Json():
+    effects_list = get_effects_list()
     effects_dict = {"effects": effects_list}
     with open('effects.json', 'w') as f:
         json.dump(effects_dict, f)
     
-def getEffectsList() -> list[str]:
+def get_effects_list() -> list[str]:
     effects_list_tmp = [
         "Sappir",
         "BB Tubes",
@@ -55,4 +55,4 @@ def remove_py_suffix(files_list: list) -> None:
         if files_list[i].endswith('.py'):
             files_list[i] = files_list[i][:-3]
 
-updateEffectsJson()
+update_effects_Json()

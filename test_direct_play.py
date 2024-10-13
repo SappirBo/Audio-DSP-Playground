@@ -43,7 +43,7 @@ effect_chain = EffectChain(effect_configs)
 
 effect_chain.process(audio_array)
 
-# wav.playAudio()
+# wav.play_audio()
 
 # delay = DigitalDelay()
 
