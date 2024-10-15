@@ -11,7 +11,7 @@ sample_rate = 44100
 # Assuming 'audio_array' is your NumPy 2D array and 'sample_rate' is the sampling rate
 # audio_array = np.random.uniform(-1, 1, (sample_rate * duration, channels))
 
-wav = AudioManager.WavFile("/home/sappirb/code/Spectrum-Analyzer/tmp/test.wav")
+wav = AudioManager.WavFile("/home/sappirb/code/Spectrum-Analyzer/data/Audio_Processor_Clap.wav")
 
 wav_data = wav.m_data
 
