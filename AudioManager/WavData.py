@@ -10,6 +10,9 @@ class WavData:
     def getSamples(self) ->np.ndarray:
         return self.m_samples
     
+    def get_samples_dtype(self)->np.dtype:
+        return self.m_samples.dtype
+    
     def getSampleRate(self):
         return self.m_sample_rate
     

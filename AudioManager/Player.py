@@ -7,6 +7,7 @@ class Player:
     def __init__(self) -> None:
         self.m_track: str = None
         self.m_samples: np.ndarray = None
+        self.m_samples_dtype:np.dtype = None
         self.m_sampling_rate: int = None
         self.m_channels: int = None
         self.m_current_track_time: float = -1.0  # when track is running, holds the time
@@ -15,8 +16,8 @@ class Player:
         self.m_is_playing: bool = False
         self.m_current_frame_index: int = 0
 
-    def get_wav_samples_in_sd_format(self, path:str)->tuple:
-        data, samplerate = sf.read(path, dtype='int16')
+    def get_wav_samples_in_sd_format(self, path:str, sample_dtype:np.dtype)->tuple:
+        data, samplerate = sf.read(path, dtype=sample_dtype)
         samples = data
         if len(data.shape) > 1:
             channels = data.shape[1]
@@ -27,6 +28,7 @@ class Player:
     def load_samples(self, samples: np.ndarray, sampling_rate: int, channels: int = None):
         """Load a track from a NumPy array of samples."""
         self.m_samples = samples
+        self.m_samples_dtype = self.m_samples.dtype
         self.m_sampling_rate = sampling_rate
         if channels is not None:
             self.m_channels = channels
@@ -74,7 +76,7 @@ class Player:
         self.m_stream = sd.OutputStream(
             samplerate=self.m_sampling_rate,
             channels=self.m_channels,
-            dtype='int16',
+            dtype=self.m_samples_dtype,
             callback=callback
         )
         with self.m_stream:
@@ -127,7 +129,7 @@ class Player:
         self.m_stream = sd.OutputStream(
             samplerate=self.m_sampling_rate,
             channels=self.m_channels,
-            dtype='int16',
+            dtype=self.m_samples_dtype,
             callback=callback
         )
         with self.m_stream:

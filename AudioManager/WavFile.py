@@ -2,12 +2,9 @@ import numpy as np
 from .WavReader import WavReader
 from .WavData import WavData
 from .WavWriter import WavWriter
-# from .AudioPlayer import AudioPlayer 
 from .Player import Player
 from EffectChain import EffectChain
 from matplotlib import pyplot as plt
-from matplotlib import style
-import threading
 from multiprocessing import Process
 from multiprocessing import shared_memory
 
@@ -37,7 +34,7 @@ class WavFile:
         self.m_data = wav_reader.read_wav(self.m_path)
         if self.m_data == None:
             raise TypeError("Error: Samples is empty, please try again")
-        self.m_samples, self.m_sample_rate, self.m_channels = self.m_audio_player.get_wav_samples_in_sd_format(self.m_path)
+        self.m_samples, self.m_sample_rate, self.m_channels = self.m_audio_player.get_wav_samples_in_sd_format(self.m_path, self.m_data.get_samples_dtype())
 
 
     # def play_audio(self):
