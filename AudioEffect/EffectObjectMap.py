@@ -1,6 +1,7 @@
 from .EffectInterface import EffectInterface
 from .DigitalDelay import DigitalDelay
 from .Overdrive import Overdrive
+from .Level import Level
 
 class EffectObjectMap:
     def __init__(self):
@@ -11,6 +12,7 @@ class EffectObjectMap:
         self.effect_class_map = {
             'DigitalDelay': DigitalDelay,
             'Overdrive': Overdrive,
+            'Level': Level
         }
         pass
 

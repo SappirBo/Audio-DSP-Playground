@@ -1,3 +1,12 @@
+import sys
+import os
+
+# Get the absolute path of the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# Add the parent directory to sys.path
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
 import numpy as np
 import AudioManager
 import sounddevice as sd
@@ -12,14 +21,11 @@ sample_rate = 44100
 # Assuming 'audio_array' is your NumPy 2D array and 'sample_rate' is the sampling rate
 # audio_array = np.random.uniform(-1, 1, (sample_rate * duration, channels))
 
-wav = AudioManager.WavFile("/home/sappirb/code/Spectrum-Analyzer/data/Audio_Processor_Clap.wav")
+wav = AudioManager.WavFile("/home/sappirb/code/Spectrum-Analyzer/data/Audio_Processor_Drums.wav")
 
-# wav_data = wav.m_data
-
-# audio_array = wav_data.getSamples().copy()
-# audio_array.setflags(write=1)
-
-
+# for i in range(44100,44120):
+print((wav.m_samples.dtype))
+print("------------------------------------------------------------------------")
 effect_configs = [
     {
         "effect_name": "Overdrive",
@@ -28,23 +34,17 @@ effect_configs = [
             "drive": 10,
             "level": 1.0
         }
-    },
-    {
-        "effect_name": "DigitalDelay",
-        "arguments": {
-            "feedback": 0.9,
-            "time": 0.15,
-            "mix": 0.5
-        }
     }
 ]
 effect_chain = EffectChain(effect_configs)
 
 wav.update_effect_chain(effect_chain)
 
-# effect_chain.process(audio_array)
+
 
 wav.play_audio()
+
+
 
 # delay = DigitalDelay()
 

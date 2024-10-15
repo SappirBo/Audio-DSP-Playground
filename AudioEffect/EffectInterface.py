@@ -37,12 +37,32 @@ class EffectInterface(ABC):
         }
         return arguments
         
-    def set_levels(self,level:float,  samples:np.ndarray):
-        # scale_level = 1 + level/10
-        # if level > 0:
-        #     samples *= abs(scale_level)
-        # elif level < 0:
-        #     samples /= abs(scale_level)
-        # else:
-        #     pass
-        pass
+    def set_levels(self, level: float, data: np.ndarray):
+        scale_level = 1 + abs(level / 10)
+        print(f"Level={level}, Scaled level = {scale_level}")
+        if level > 0:
+            data *= scale_level
+        elif level < 0:
+            data /= scale_level
+
+
+    def scale_from_dtype_to_fraction(self, data: np.ndarray):
+        val_dtype = data.dtype
+        if np.issubdtype(val_dtype, np.integer):
+            info = np.iinfo(val_dtype)
+            max_val = max(abs(info.min), abs(info.max))
+            return data.astype(np.float32) / max_val
+        else:
+            # Data is already floating-point
+            return data
+
+    def scale_from_fraction_to_dtype(self, data: np.ndarray, arr_type: np.dtype):
+        if np.issubdtype(arr_type, np.integer):
+            info = np.iinfo(arr_type)
+            max_val = max(abs(info.min), abs(info.max))
+            data_int = np.clip(data * max_val, info.min, info.max - 1).astype(arr_type)
+            return data_int
+        else:
+            return data.astype(arr_type)
+
+

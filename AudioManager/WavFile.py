@@ -39,7 +39,9 @@ class WavFile:
         if not self.m_path:
             return 
         samples = self.m_samples.copy()
+        samples = self.scale_from_dtype_to_fraction(samples)
         samples.setflags(write=1)
+        
         # Create shared memory block
         shm = shared_memory.SharedMemory(create=True, size=samples.nbytes)
         # Create a numpy array backed by shared memory
@@ -54,9 +56,10 @@ class WavFile:
 
         # After processing, read from shared memory
         processed_samples = np.ndarray(samples.shape, dtype=samples.dtype, buffer=shm.buf)
-
+       
         # Copy processed data back to samples
         samples = processed_samples.copy()
+        samples = self.scale_from_fraction_to_dtype(samples, self.m_data.get_samples_dtype())
 
         # Close and unlink shared memory
         shm.close()
@@ -64,6 +67,11 @@ class WavFile:
 
         self.m_audio_player.load_samples(samples, self.m_sample_rate, self.m_channels)
         self.m_audio_player.play_track()
+
+    def print_20(self, data:np.ndarray):
+        for i in range(44100,44120):
+            print(data[i])
+        print("_________________________________________________________")
 
     def __process_samples_in_process(self, shape, dtype, shm_name):
         # Attach to existing shared memory
@@ -151,5 +159,22 @@ class WavFile:
     def remove_all_effect_chain(self):
         self.m_effect_chain.remove_all()
 
+    def scale_from_dtype_to_fraction(self, data: np.ndarray):
+        val_dtype = data.dtype
+        if np.issubdtype(val_dtype, np.integer):
+            info = np.iinfo(val_dtype)
+            max_val = max(abs(info.min), abs(info.max))
+            return data.astype(np.float32) / max_val
+        else:
+            # Data is already floating-point
+            pass
 
+    def scale_from_fraction_to_dtype(self, data: np.ndarray, arr_type: np.dtype):
+        if np.issubdtype(arr_type, np.integer):
+            info = np.iinfo(arr_type)
+            max_val = max(abs(info.min), abs(info.max))
+            data_int = np.clip(data * max_val, info.min, info.max - 1).astype(arr_type)
+            return data_int
+        else:
+            return data.astype(arr_type)
 
