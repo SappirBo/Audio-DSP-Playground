@@ -5,6 +5,9 @@ import soundfile as sf
 
 class Player:
     def __init__(self) -> None:
+        '''
+        Audio Player class from a raw Data (numpy array)
+        '''
         self.m_track: str = None
         self.m_samples: np.ndarray = None
         self.m_samples_dtype:np.dtype = None
@@ -77,7 +80,9 @@ class Player:
             samplerate=self.m_sampling_rate,
             channels=self.m_channels,
             dtype=self.m_samples_dtype,
-            callback=callback
+            callback=callback,
+            blocksize=1024,
+            latency='high'
         )
         with self.m_stream:
             while self.m_is_playing:
