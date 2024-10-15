@@ -4,7 +4,7 @@ import math
 from .EffectInterface import EffectInterface
 
 class Overdrive(EffectInterface):
-    def __init__(self, mix:float, drive:float, level:float):
+    def __init__(self, mix:float = 0.5, drive:float = 0, level:float= 0):
         self.mix = self.set_between_range(0, 1, mix)
         self.drive = self.set_between_range(0,10,drive)
         self.level = self.set_between_range(0,10,level)
@@ -27,6 +27,8 @@ class Overdrive(EffectInterface):
             drived_right = self.__scail_from_fraction_to_int(drived_right)
 
             data[i] = [drived_left, drived_right]
+        
+        self.set_levels(self.level, data)
             
     def process_and_return_new(self, data: np.ndarray, rate: int = 44100):
         samples_drived: np.ndarray = np.zeros_like(data)
@@ -76,3 +78,22 @@ class Overdrive(EffectInterface):
         cut_pont = (drive_amout - (2 - drive_amout * 1/3)**2 ) / drive_amout
         slop = float(cut_pont / (1/3))
         return drive_amout, slop
+    
+    def get_effect_arguments(self)->dict:
+        arguments:dict =  {
+            "parameters":{
+                "mix":{
+                    "min":0.0,
+                    "max": 1.0
+                },
+                "drive":{
+                    "min":0.0,
+                    "max": 10.0
+                },
+                "level": {
+                    "min":-10.0,
+                    "max": 10.0
+                }
+            }
+        }
+        return arguments

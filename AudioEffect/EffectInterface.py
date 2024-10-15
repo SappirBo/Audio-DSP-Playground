@@ -21,10 +21,27 @@ class EffectInterface(ABC):
             return min
         else: 
             return value
+    
+    def get_effect_arguments(self)->dict:
+        arguments:dict =  {
+            "parameters":{
+            "mix":{
+                "min":0.0,
+                "max": 1.0
+            },
+            "level": {
+                "min":-10.0,
+                "max": 10.0
+            }
+        }
+        }
+        return arguments
         
-    def set_levels(self,level,  sample:np.ndarray):
-        sample_scaled = float(sample) / sys.maxsize
-        level_scaled = float(level) / 100 
-        sample_times_leveling = sample_scaled * level_scaled 
-        sample_leveled = int(float(sys.maxsize) * sample_times_leveling) 
-        return sample_leveled 
+    def set_levels(self,level:float,  samples:np.ndarray):
+        scale_level = 1 + level/10
+        if level > 0:
+            samples *= abs(scale_level)
+        elif level < 0:
+            samples /= abs(scale_level)
+        else:
+            pass

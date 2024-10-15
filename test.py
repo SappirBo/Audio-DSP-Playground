@@ -1,6 +1,7 @@
 import numpy as np
 import AudioManager
 import sounddevice as sd
+import AudioEffect
 from AudioEffect import DigitalDelay
 from AudioManager import Player
 from EffectChain import EffectChain

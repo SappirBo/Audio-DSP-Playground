@@ -1,6 +1,6 @@
 import numpy as np
 from typing import List, Dict
-from AudioEffect import EffectInterface, Overdrive, DigitalDelay
+from AudioEffect import EffectInterface, Overdrive, DigitalDelay, EffectObjectMap
 
 
 class EffectChain(EffectInterface):
@@ -14,12 +14,6 @@ class EffectChain(EffectInterface):
             - 'arguments': A dict of arguments to pass to the effect class constructor
         """
         self.effects:list[EffectInterface] = []
-        
-        # Map effect names to their corresponding classes
-        self.effect_class_map = {
-            'DigitalDelay': DigitalDelay,
-            'Overdrive': Overdrive,
-        }
 
         self.set_effect_config(effect_configs)
 
@@ -32,7 +26,8 @@ class EffectChain(EffectInterface):
     def add_effect(self, config:Dict):
         effect_name = config.get('effect_name')
         arguments = config.get('arguments', {})
-        effect_class = self.effect_class_map.get(effect_name)
+        effect_map = EffectObjectMap()
+        effect_class = effect_map.get_single_effect_class(effect_name)
 
         if effect_class is None:
             raise ValueError(f"Unknown effect name: {effect_name}")
