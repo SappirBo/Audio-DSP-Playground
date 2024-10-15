@@ -38,10 +38,11 @@ class EffectInterface(ABC):
         return arguments
         
     def set_levels(self,level:float,  samples:np.ndarray):
-        scale_level = 1 + level/10
-        if level > 0:
-            samples *= abs(scale_level)
-        elif level < 0:
-            samples /= abs(scale_level)
-        else:
-            pass
+        # scale_level = 1 + level/10
+        # if level > 0:
+        #     samples *= abs(scale_level)
+        # elif level < 0:
+        #     samples /= abs(scale_level)
+        # else:
+        #     pass
+        pass

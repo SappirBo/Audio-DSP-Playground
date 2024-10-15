@@ -14,11 +14,10 @@ class WavFile:
     def __init__(self, path_to_wav: str = None) -> None:
         self.m_path: str = path_to_wav
         self.m_data: WavData = None
-        self.m_effect_chain:EffectChain = None
+        self.m_effect_chain:EffectChain = EffectChain()
         self.m_channels:int = 0
         self.m_samples:np.ndarray = None
         self.m_sample_rate:int = 44100
-        # self.m_audio_player = AudioPlayer()
         self.m_audio_player = Player()
         if self.m_path is not None:
             self.__read_wav()
@@ -36,29 +35,11 @@ class WavFile:
             raise TypeError("Error: Samples is empty, please try again")
         self.m_samples, self.m_sample_rate, self.m_channels = self.m_audio_player.get_wav_samples_in_sd_format(self.m_path, self.m_data.get_samples_dtype())
 
-
-    # def play_audio(self):
-    #     if not self.m_path:
-    #         return 
-    #     thread = threading.Thread(target=self.__process_and_play_audio, daemon=True)
-    #     thread.start()
-        
-    # def __process_and_play_audio(self):
-    #     samples = self.m_samples.copy()
-    #     samples.setflags(write=1)
-
-    #     self.m_effect_chain.process(samples, self.m_sample_rate)
-
-    #     self.m_audio_player.load_samples(samples, self.m_sample_rate, self.m_channels)
-    #     self.m_audio_player.play_track()
-
     def play_audio(self):
         if not self.m_path:
             return 
-
         samples = self.m_samples.copy()
         samples.setflags(write=1)
-
         # Create shared memory block
         shm = shared_memory.SharedMemory(create=True, size=samples.nbytes)
         # Create a numpy array backed by shared memory
@@ -163,3 +144,12 @@ class WavFile:
 
     def update_effect_chain(self, effect_chain:EffectChain)->None:
         self.m_effect_chain = effect_chain
+
+    def add_to_effect_chain(self, config:dict):
+        self.m_effect_chain.add_effect(config)
+
+    def remove_all_effect_chain(self):
+        self.m_effect_chain.remove_all()
+
+
+

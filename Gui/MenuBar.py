@@ -2,13 +2,14 @@ from tkinter import Menu,Tk, filedialog
 import tkinter as tk
 import json
 from .EffectWindow import EffectWindow
-from EffectChain import EffectChain
+from .EffectOperation import EffectOperation
 
 class MenuBar:
-    def __init__(self, master: Tk, wav_select_callback, plot_wav_callback, close_callback, effect_chain:EffectChain):
+    def __init__(self, master: Tk, wav_select_callback, plot_wav_callback, close_callback, effect_chain_operations_callback):
         self.m_wav_select_callback = wav_select_callback
         self.m_plot_wav_callback = plot_wav_callback
         self.m_close_callback = close_callback
+        self.effect_chain_operations = effect_chain_operations_callback
 
         self.m_selected_path = None
         self.m_master = master
@@ -25,12 +26,11 @@ class MenuBar:
         effects_menu.add_command(label="Show Effects", command=lambda: self.effects_command(0))
         effects_menu.add_command(label="Add Effect", command=lambda: self.effects_command(1))
         effects_menu.add_command(label="Remove Effect", command=lambda: self.effects_command(2))
+        effects_menu.add_command(label="Remove All Effects", command=lambda: self.effects_command(3))
 
         self.m_menu_bar.add_command(label="Export Wav",command=lambda: testCommand(1))
         self.m_menu_bar.add_separator()
         self.m_menu_bar.add_command(label="Exit", command=master.quit)
-
-        self.m_effect_chain = effect_chain
     
     def grace_exit(self):
         self.m_close_callback()
@@ -42,11 +42,9 @@ class MenuBar:
         elif code == 1:
             self.show_add_effect_window()
         elif code == 2:
-            print("Removing Effect...")
-
-    def remove_all_effects(self)->None:
-        print("Removing Effect...")
-        self.m_effect_chain.remove_all()
+            self.remove_effect()
+        elif code == 3:
+            self.remove_all_effects()
 
     def show_add_effect_window(self):
         """Open a new window to add effects from the effects.json file."""
@@ -84,7 +82,13 @@ class MenuBar:
         self.m_plot_wav_callback()
 
     def add_effect(self, config:dict):
-        self.m_effect_chain.add_effect(config)
+        self.effect_chain_operations(EffectOperation.ADD_EFFECT, config)
+
+    def remove_all_effects(self)->None:
+        self.effect_chain_operations(EffectOperation.REMOVE_ALL)
+    
+    def remove_effect(self)->None:
+        self.effect_chain_operations(EffectOperation.REMOVE_EFFECT)
 
 def dummy():
     print("DUMMY!")       

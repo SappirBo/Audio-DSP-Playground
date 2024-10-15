@@ -48,4 +48,9 @@ class EffectChain(EffectInterface):
             effect.process(data, rate)
 
     def remove_all(self)->None:
-        self.effects = []
+        self.print_chain()
+        self.effects.clear()
+        self.print_chain()
+        
+    def print_chain(self)->None:
+        print(self.effects)
