@@ -1,9 +1,9 @@
 import json
-from .EffectInterface import EffectInterface
-from .DigitalDelay import DigitalDelay
-from .Overdrive import Overdrive
-from.Level import Level
-from .EffectObjectMap import EffectObjectMap
+from .effect_interface import EffectInterface
+from .digital_delay import DigitalDelay
+from .overdrive import Overdrive
+from.level import Level
+from .effect_object_map import EffectObjectMap
 import os
 
 def update_effects_Json(effects_list:list[str] = None) -> None:
@@ -16,7 +16,8 @@ def update_effects_params_Json(effects_list:list[str] = None) -> None:
     effect_map = EffectObjectMap()
     for effect_name in effects_list:
         effect = effect_map.get_single_effect_obj(effect_name)
-        effect_params_dict[effect_name] = effect.get_effect_arguments()
+        if effect:
+            effect_params_dict[effect_name] = effect.get_effect_arguments()
     effects_dict = {"effects": effect_params_dict}
     write_dict_to_json("effects_params.json",effects_dict)
 
@@ -25,11 +26,20 @@ def write_dict_to_json(path:os.path, data:dict) ->None:
         json.dump(data, f) 
     
 def get_effects_list() -> list[str]:
-    effects_list = res = get_all_files_in_this_dir()
-    map_out_interface(res)
-    remove_py_suffix(res)
+    effects_list = get_all_files_in_this_dir()
+    print(effects_list)
+    map_out_interface(effects_list)
+    print(effects_list)
+    remove_py_suffix(effects_list)
+    print(effects_list)
+    file_name_to_class_name(effects_list)
+    print(effects_list)
 
     return effects_list
+
+def file_name_to_class_name(files_list:list) -> None:
+    for i in range(len(files_list)):
+        files_list[i] = file_name_to_class_name_converter(files_list[i])
 
 def get_all_files_in_this_dir() -> list: 
     dir_path = os.path.dirname(os.path.realpath(__file__)) # folder path
@@ -41,8 +51,8 @@ def get_all_files_in_this_dir() -> list:
     return res
 
 def map_out_interface(files_list:list) -> None:
-    files_list.remove("EffectInterface.py")
-    files_list.remove("EffectObjectMap.py")
+    files_list.remove("effect_interface.py")
+    files_list.remove("effect_object_map.py")
     files_list.remove("__init__.py")
 
 def remove_py_suffix(files_list: list) -> None:
@@ -50,6 +60,27 @@ def remove_py_suffix(files_list: list) -> None:
         if files_list[i].endswith('.py'):
             files_list[i] = files_list[i][:-3]
 
+def file_name_to_class_name_converter(file_name:str)->str:
+        if file_name is None or file_name == "":
+            print(f"EffectObjectMap (file_name_to_class_name_converter): file name is empty or None")
+            return None
+        if file_name[-3:] == ".py":
+            file_name = file_name[:-3]
+        
+        class_name:str = ""
+        upper_flag:bool = False
+        
+        for i in range(len(file_name)):
+            if i == 0:
+                class_name += file_name[i].upper()
+            elif file_name[i] == '_':
+                upper_flag = True
+            elif upper_flag:
+                class_name += file_name[i].upper()
+                upper_flag = False
+            else:
+                class_name += file_name[i]
+        return class_name
 
 '''
 Start Script For AudioEffect
