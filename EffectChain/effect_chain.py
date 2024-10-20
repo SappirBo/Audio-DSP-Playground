@@ -54,3 +54,18 @@ class EffectChain(EffectInterface):
         
     def print_chain(self)->None:
         print(self.effects)
+
+    def get_effect_arguments(self)->dict:
+        arguments:dict =  {
+            "parameters":{
+                "mix":{
+                    "min":0.0,
+                    "max": 1.0
+                },
+                "level": {
+                    "min":-10.0,
+                    "max": 10.0
+                }
+            }
+        }
+        return arguments

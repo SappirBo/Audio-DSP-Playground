@@ -1,4 +1,4 @@
-from .EffectChain import EffectChain
+from .effect_chain import EffectChain
 from AudioManager import WavFile
 
 

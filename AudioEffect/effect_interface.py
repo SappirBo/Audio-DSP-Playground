@@ -22,6 +22,7 @@ class EffectInterface(ABC):
         else: 
             return value
     
+    @abstractmethod
     def get_effect_arguments(self)->dict:
         arguments:dict =  {
             "parameters":{
@@ -44,7 +45,6 @@ class EffectInterface(ABC):
             data *= scale_level
         elif level < 0:
             data /= scale_level
-
 
     def scale_from_dtype_to_fraction(self, data: np.ndarray):
         val_dtype = data.dtype

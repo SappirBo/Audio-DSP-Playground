@@ -52,6 +52,7 @@ class Player:
             return
         thread = threading.Thread(target=self.__play, daemon=True)
         thread.start()
+        # thread.join()
 
     def __play(self):
         self.m_is_playing = True

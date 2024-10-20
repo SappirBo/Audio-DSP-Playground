@@ -27,13 +27,9 @@ def write_dict_to_json(path:os.path, data:dict) ->None:
     
 def get_effects_list() -> list[str]:
     effects_list = get_all_files_in_this_dir()
-    print(effects_list)
     map_out_interface(effects_list)
-    print(effects_list)
     remove_py_suffix(effects_list)
-    print(effects_list)
     file_name_to_class_name(effects_list)
-    print(effects_list)
 
     return effects_list
 
