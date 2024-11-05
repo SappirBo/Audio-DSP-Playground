@@ -30,14 +30,17 @@ class Compressor(EffectInterface):
 
         bits_to_attack = rate * attack_in_seconds
         bits_to_release = rate * release_in_seconds
-
+        print(data.dtype)
         data = data.astype(np.float64)
         print(data.dtype)
         print(f"Max = {data.max()}, Min = {data.min()}")
     
-        audio_process_lib.mult(1/self.ratio, data)
+        audio_process_lib.mult(self.ratio, data)
 
         print(data.dtype)
+        data = data.astype(np.float32)
+        print(data.dtype)
+
         print(f"Max = {data.max()}, Min = {data.min()}")
 
         pass
