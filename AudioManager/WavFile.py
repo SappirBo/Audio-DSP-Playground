@@ -97,7 +97,7 @@ class WavFile:
     def plot_samples(self):
         # thread = threading.Thread(target=self.__plot_samples)
         # thread.start()
-        # self.__plot_samples()
+        self.__plot_samples()
         print("Temporery Stoped")
 
     def __plot_samples(self):

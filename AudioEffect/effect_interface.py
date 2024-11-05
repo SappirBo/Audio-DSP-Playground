@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from abc import ABC, abstractmethod
+import matplotlib as mpl
 
 class EffectInterface(ABC):
     @abstractmethod
@@ -13,14 +14,6 @@ class EffectInterface(ABC):
         rate (int): The sampling rate of the audio data.
         """
         pass
-
-    def set_between_range(self, min:float , max:float, value:float) -> float:
-        if value > max:
-            return max
-        elif value < min: 
-            return min
-        else: 
-            return value
     
     @abstractmethod
     def get_effect_arguments(self)->dict:
@@ -37,6 +30,14 @@ class EffectInterface(ABC):
         }
         }
         return arguments
+        
+    def set_between_range(self, min:float , max:float, value:float) -> float:
+        if value > max:
+            return max
+        elif value < min: 
+            return min
+        else: 
+            return value
         
     def set_levels(self, level: float, data: np.ndarray):
         scale_level = 1 + abs(level / 10)
@@ -65,4 +66,6 @@ class EffectInterface(ABC):
         else:
             return data.astype(arr_type)
 
+    def plot_wav(self):
+        pass  
 

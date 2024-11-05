@@ -31,9 +31,15 @@ class Compressor(EffectInterface):
         bits_to_attack = rate * attack_in_seconds
         bits_to_release = rate * release_in_seconds
 
-        audio_process_lib.mult(1/2, data)
+        data = data.astype(np.float64)
+        print(data.dtype)
+        print(f"Max = {data.max()}, Min = {data.min()}")
+    
+        audio_process_lib.mult(1/self.ratio, data)
 
-        print("HERE")
+        print(data.dtype)
+        print(f"Max = {data.max()}, Min = {data.min()}")
+
         pass
 
     def print_args(self):
@@ -74,5 +80,7 @@ class Compressor(EffectInterface):
         }
         }
         return arguments
-        
+
+    def plot_wav(self):
+        pass       
 

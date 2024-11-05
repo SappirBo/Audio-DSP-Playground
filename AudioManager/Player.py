@@ -161,7 +161,10 @@ class Player:
         
     def get_frame_as_frequncy_domain(self)-> tuple:
         frame = self.get_current_frame()
-        return self.__time_to_frequncy_domain(frame)
+        if frame is not None:
+            return self.__time_to_frequncy_domain(frame)
+        else:
+            raise TypeError("Frame is None")
 
     def __time_to_frequncy_domain(self, buffer: np.ndarray) -> tuple:
         fft_amplitude = None
