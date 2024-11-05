@@ -40,7 +40,7 @@ class SpectrumAnalyzer:
     def update_spectrum(self):
         while self.m_thread_flag:
             while self.m_audio_source.is_audio_playing():
-                result = self.m_audio_source.get_audio_frame()
+                result = self.m_audio_source.get_audio_frame_in_frequncy_domain()
                 if result is None:
                     continue
                 fft_amplitude, fft_freq = result
