@@ -5,17 +5,19 @@ from .EffectWindow import EffectWindow
 from .EffectOperation import EffectOperation
 
 class MenuBar:
-    def __init__(self, master: Tk, wav_select_callback, plot_wav_callback, close_callback, effect_chain_operations_callback):
+    def __init__(self, master: Tk, wav_select_callback, plot_wav_callback, close_callback, effect_chain_operations_callback, on_display_button_click_callback):
         self.m_wav_select_callback = wav_select_callback
         self.m_plot_wav_callback = plot_wav_callback
         self.m_close_callback = close_callback
         self.effect_chain_operations = effect_chain_operations_callback
+        self.on_display_button_click = on_display_button_click_callback
 
         self.m_selected_path = None
         self.m_master = master
 
         self.m_menu_bar = Menu(master)
         master.config(menu=self.m_menu_bar)
+        self.m_menu_bar.add_command(label="Switch Display", command=self.on_display_button_click)
         self.m_menu_bar.add_command(label="Import Wav", command=self.select_wav_file)
         self.m_menu_bar.add_separator()
         # self.m_menu_bar.add_command(label="Show Amplitude", command=self.plot_wav_file)
@@ -97,7 +99,7 @@ def testCommand(code:int):
     if code == 0:
         print("uploading!")
     if code == 1:
-        print("Newing!")
+        print("Change Display!")
     if code == 2:
         print("See You!")
     pass
