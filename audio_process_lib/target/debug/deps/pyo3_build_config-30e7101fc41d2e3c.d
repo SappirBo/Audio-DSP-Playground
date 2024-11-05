@@ -1,0 +1,14 @@
+/home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/deps/libpyo3_build_config-30e7101fc41d2e3c.rmeta: /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/lib.rs /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/errors.rs /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/impl_.rs /home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config-file.txt /home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config.txt
+
+/home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/deps/libpyo3_build_config-30e7101fc41d2e3c.rlib: /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/lib.rs /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/errors.rs /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/impl_.rs /home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config-file.txt /home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config.txt
+
+/home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/deps/pyo3_build_config-30e7101fc41d2e3c.d: /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/lib.rs /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/errors.rs /home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/impl_.rs /home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config-file.txt /home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config.txt
+
+/home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/lib.rs:
+/home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/errors.rs:
+/home/sappirb/.cargo/registry/src/index.crates.io-6f17d22bba15001f/pyo3-build-config-0.22.5/src/impl_.rs:
+/home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config-file.txt:
+/home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out/pyo3-build-config.txt:
+
+# env-dep:CARGO_PKG_VERSION=0.22.5
+# env-dep:OUT_DIR=/home/sappirb/code/Spectrum-Analyzer/audio_process_lib/target/debug/build/pyo3-build-config-c0ced2478dca2673/out

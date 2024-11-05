@@ -1,6 +1,10 @@
 import numpy as np
-from scipy import signal 
+from scipy import signal
+
+import audio_process_lib
+
 from .effect_interface import EffectInterface
+import audio_process_lib
 
 class Compressor(EffectInterface):
     def __init__(self, mix:float=0.0, level:float=0.0, threshold:float=0.0, ratio:float=1.0, attack:float=1.0, release:float=1.0):
@@ -26,6 +30,10 @@ class Compressor(EffectInterface):
 
         bits_to_attack = rate * attack_in_seconds
         bits_to_release = rate * release_in_seconds
+
+        audio_process_lib.mult(1/2, data)
+
+        print("HERE")
         pass
 
     def print_args(self):
