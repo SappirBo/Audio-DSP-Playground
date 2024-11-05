@@ -153,6 +153,14 @@ class Player:
         if self.m_channels > 1:
             # Convert stereo to mono by averaging the channels
             frame = frame.mean(axis=1)
+        return frame
+    
+    def get_frame_as_time_domain(self)-> np.ndarray:
+        frame = self.get_current_frame()
+        return frame
+        
+    def get_frame_as_frequncy_domain(self)-> tuple:
+        frame = self.get_current_frame()
         return self.__time_to_frequncy_domain(frame)
 
     def __time_to_frequncy_domain(self, buffer: np.ndarray) -> tuple:

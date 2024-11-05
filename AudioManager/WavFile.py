@@ -138,15 +138,15 @@ class WavFile:
     def get_num_chanels(self)->int:
         return self.m_data.m_num_channels
 
-    def get_audio_frame(self):
-        return self.m_audio_player.get_current_frame()
+    def get_audio_frame_in_frequncy_domain(self)->tuple:
+        return self.m_audio_player.get_frame_as_frequncy_domain()
+    
+    def get_audio_frame_in_time_domain(self)->np.ndarray:
+        return self.m_audio_player.get_frame_as_time_domain()
 
     def is_audio_playing(self) -> bool:
         return self.m_audio_player.is_playing()
 
-    def get_audio_samples_per_frame(self)->int:
-        return self.m_audio_player.get_samples_per_frame()
-    
     def write_samples(self, new_samples: np.ndarray)-> None:
         self.m_data.m_samples = new_samples
 
