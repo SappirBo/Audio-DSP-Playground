@@ -105,18 +105,3 @@ class SpectrogramDisplay:
         time_ticks = np.linspace(0, self.num_time_steps, 5)
         self.m_ax.set_xticks(time_ticks)
         self.m_ax.set_xticklabels([''] * len(time_ticks))
-
-    # def on_mouse_move(self, event):
-    #     if event.inaxes == self.m_ax:
-    #         x = event.xdata
-    #         y = event.ydata
-    #         if x is not None and y is not None:
-    #             freq_bins = np.linspace(0, self.sample_rate / 2, self.num_freq_bins)
-    #             freq_idx = int((y / (self.sample_rate / 2)) * self.num_freq_bins)
-    #             if 0 <= freq_idx < self.num_freq_bins:
-    #                 frequency = freq_bins[freq_idx]
-    #                 self.m_frequency_label.config(text=f"Frequency: {frequency:.2f} Hz")
-    #             else:
-    #                 self.m_frequency_label.config(text="Frequency: N/A")
-    #     else:
-    #         self.m_frequency_label.config(text="Frequency: N/A")

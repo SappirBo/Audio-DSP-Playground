@@ -1,0 +1,13 @@
+[package]
+name = "audio_process_lib"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "audio_process_lib"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22.4", features = ["extension-module"] }
+numpy = "0.22.0"
+ndarray = "0.16.1"

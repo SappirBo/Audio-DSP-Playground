@@ -4,7 +4,7 @@ from .effect_interface import EffectInterface
 
 
 class Equalizer(EffectInterface):
-    def __init__(self, mix:float=0.0, level:float=0.0,analog:bool=False, high_pass:int = 22000, low_pass:int = 0,eq_params:list[dict] = None) :
+    def __init__(self, mix:float=0.0, level:float=0.0,analog:bool=False, high_pass:int = 22000, low_pass:int = 0, eq_params:list[dict] = None) :
         self.mix = mix
         self.level = level
         self.analog = analog
@@ -58,10 +58,6 @@ class Equalizer(EffectInterface):
     def get_effect_arguments(self)->dict:
         arguments:dict =  {
             "parameters":{
-                "mix":{
-                    "min":0.0,
-                    "max": 1.0
-                },
                 "level": {
                     "min":-10.0,
                     "max": 10.0
@@ -73,8 +69,35 @@ class Equalizer(EffectInterface):
                 "low_pass":{
                     "min":15,
                     "max":22000 
+                },
+                "Peak_1":{
+                    "min":15,
+                    "max":22000 
+                },
+                "Peak_1_Q":{
+                    "min":15,
+                    "max":22000 
+                },
+                "Peak_1_gain":{
+                    "min":15,
+                    "max":22000 
+                },
+                "Peak_2":{
+                    "min":15,
+                    "max":22000 
+                },
+                "Peak_2_Q":{
+                    "min":15,
+                    "max":22000 
+                },
+                "Peak_2_gain":{
+                    "min":15,
+                    "max":22000 
                 }
             }
         }
         return arguments
+
+
+ 
      

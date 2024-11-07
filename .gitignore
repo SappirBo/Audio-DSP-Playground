@@ -3,3 +3,6 @@
 **/__pycache__/
 *output/
 *effect*.json
+
+audio_process_lib/target/
+TMP.txt

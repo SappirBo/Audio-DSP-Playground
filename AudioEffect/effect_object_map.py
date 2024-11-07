@@ -3,6 +3,7 @@ from .digital_delay import DigitalDelay
 from .overdrive import Overdrive
 from .equalizer import Equalizer
 from .level import Level
+from .compressor import Compressor
 
 class EffectObjectMap:
     def __init__(self):
@@ -14,7 +15,8 @@ class EffectObjectMap:
             'DigitalDelay': DigitalDelay,
             'Overdrive': Overdrive,
             'Level': Level,
-            "Equalizer": Equalizer
+            "Equalizer": Equalizer,
+            "Compressor": Compressor
         }
         pass
 
