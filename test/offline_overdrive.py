@@ -18,6 +18,6 @@ effect_chain.print_chain()
 
 wav.update_effect_chain(effect_chain)
 
-wav.play_audio()
+wav.play_audio(print_processing_time=True)
 
 wav.plot_samples()
