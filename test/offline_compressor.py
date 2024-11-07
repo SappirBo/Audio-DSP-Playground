@@ -5,6 +5,7 @@ from EffectChain import EffectChain
 
 wav = WavFile("/home/sappirb/code/Spectrum-Analyzer/data/Audio_Processor_Drums.wav")
 
+
 settings = {
     "effect_name": "Compressor",
     "arguments":{

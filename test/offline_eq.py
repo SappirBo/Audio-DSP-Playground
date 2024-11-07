@@ -5,7 +5,7 @@ from EffectChain import EffectChain
 
 wav = WavFile("/home/sappirb/code/Spectrum-Analyzer/data/Audio_Processor_Drums.wav")
 
-print(wav.m_data.toString())
+print(f" sample [3000] = {wav.m_data.getSamples()[10000]}")
 
 eq_settings = {
     "effect_name": "Equalizer",
@@ -33,5 +33,6 @@ effect_chain.print_chain()
 wav.update_effect_chain(effect_chain)
 
 wav.play_audio()
+print(f" sample [3000] = {wav.m_data.getSamples()[10000]}")
 
 wav.plot_samples()

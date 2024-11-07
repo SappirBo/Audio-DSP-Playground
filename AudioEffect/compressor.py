@@ -10,7 +10,7 @@ class Compressor(EffectInterface):
     def __init__(self, mix:float=0.0, level:float=0.0, threshold:float=0.0, ratio:float=1.0, attack:float=1.0, release:float=1.0):
         self.mix = mix
         self.level = level
-        self.threshold = threshold if threshold < 0.0 else 0.0
+        self.threshold = threshold if threshold < 0.0 else 0.0 # threshold is number [0,-100]
         self.ratio = ratio if ratio > 1.0 else 1.0
         self.attack = attack
         self.release = release
@@ -24,26 +24,14 @@ class Compressor(EffectInterface):
         data (numpy.array): The audio data to process.
         rate (int): The sampling rate of the audio data.
         """ 
-        one_second = 1000.0
-        attack_in_seconds:float = self.attack / one_second
-        release_in_seconds:float = self.release / one_second
 
-        bits_to_attack = rate * attack_in_seconds
-        bits_to_release = rate * release_in_seconds
-        print(data.dtype)
-        data = data.astype(np.float64)
-        print(data.dtype)
-        print(f"Max = {data.max()}, Min = {data.min()}")
-    
-        audio_process_lib.mult(self.ratio, data)
+        process_data = data.astype(np.float64)
+        print(f"Max value of data {data.max()}, min value: {data.min()}")
 
-        print(data.dtype)
-        data = data.astype(np.float32)
-        print(data.dtype)
+        audio_process_lib.compress(process_data, self.threshold, self.ratio, self.attack, self.release)
 
-        print(f"Max = {data.max()}, Min = {data.min()}")
+        np.copyto(data, process_data)
 
-        pass
 
     def print_args(self):
         print(f"mix = {self.mix}")
@@ -84,6 +72,5 @@ class Compressor(EffectInterface):
         }
         return arguments
 
-    def plot_wav(self):
-        pass       
+   
 
