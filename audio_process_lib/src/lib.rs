@@ -10,15 +10,6 @@ fn ms_to_bits(ms:f64)->i32{
     return ms_in_bits as i32;
 }
 
-// fn compress_single_sample(sample:&mut f64, refinement:f64, ratio:f64){
-//     let mut decrease = *sample/ratio;
-//     let factor = if ratio * refinement > 1.0 {1.0} else{ ratio * refinement};
-//     if ratio > 1.0{
-//         decrease = *sample / factor;
-//     }
-//     sample = decrease;
-// }
-
 #[pyfunction]
 fn compress<'py>(_py: Python<'py>, mut data: PyReadwriteArrayDyn<'py,f64>, threshold:f64, ratio: f64, attack:f64, release:f64){
         let bits_to_attack = ms_to_bits(attack);
@@ -70,9 +61,30 @@ fn compress<'py>(_py: Python<'py>, mut data: PyReadwriteArrayDyn<'py,f64>, thres
         // }
 }
 
+#[pyfunction]
+fn overdrive<'py>(_py: Python<'py>, mut data: PyReadwriteArrayDyn<'py, f64>, _level:f64, _mix: f64){
+    for sample in data.as_array_mut().iter_mut(){
+        let max_val = 1.0;
+        let two_thirds = 0.66666;
+        let third = 0.3333;
+
+        if sample.abs() > two_thirds {
+            *sample = max_val;
+        }
+        else if sample.abs() > third && sample.abs() <= two_thirds {
+            *sample = (3.0 - (2.0 - 3.0 * *sample).powi(2))/3.0;
+        }
+        else{
+            *sample *= 2.0;
+        }
+    }
+}
+
+
 #[pymodule]
 fn audio_process_lib<'py>(_py: Python<'py>, m: &Bound<'py, PyModule>) -> PyResult<()> {
     // example using a mutable borrow to modify an array in-place
     m.add_function(wrap_pyfunction!(compress, m)?)?;
+    m.add_function(wrap_pyfunction!(overdrive, m)?)?;
     Ok(())
 }

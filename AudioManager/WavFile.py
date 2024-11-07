@@ -7,6 +7,7 @@ from EffectChain import EffectChain
 from matplotlib import pyplot as plt
 from multiprocessing import Process
 from multiprocessing import shared_memory
+import time
 
 
 
@@ -35,7 +36,7 @@ class WavFile:
             raise TypeError("Error: Samples is empty, please try again")
         self.m_samples, self.m_sample_rate, self.m_channels = self.m_audio_player.get_wav_samples_in_sd_format(self.m_path, self.m_data.get_samples_dtype())
 
-    def play_audio(self):
+    def play_audio(self, print_processing_time:bool=False):
         if not self.m_path:
             return 
         samples = self.m_samples.copy()
@@ -49,10 +50,17 @@ class WavFile:
         # Copy data into shared memory
         np.copyto(shm_samples, samples)
 
+        if print_processing_time:
+            start = time.time()
         # Start process to process samples
         p = Process(target=self.__process_samples_in_process, args=(samples.shape, samples.dtype, shm.name))
         p.start()
         p.join()
+
+        if print_processing_time:
+            end = time.time()
+            length = end - start
+            print(f"[WavFile] Timer: process time for effects {length}")
 
         # After processing, read from shared memory
         processed_samples = np.ndarray(samples.shape, dtype=samples.dtype, buffer=shm.buf)

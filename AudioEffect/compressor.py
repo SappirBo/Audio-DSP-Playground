@@ -32,7 +32,6 @@ class Compressor(EffectInterface):
 
         np.copyto(data, process_data)
 
-
     def print_args(self):
         print(f"mix = {self.mix}")
         print(f"level = {self.level}")
