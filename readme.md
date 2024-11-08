@@ -16,5 +16,15 @@ A convenient and interactive platform designed for Digital Signal Processing (DS
 4. Visualize with Spectrum Analyzer: Observe the real-time frequency spectrum of your audio to understand how your effects influence the sound.
 
 
+## Dependencies
+1. [Install Python 3.10 or higher](https://www.python.org/downloads/)
+2. [Install Pip](https://pip.pypa.io/en/stable/installation/)
+3. Install Rust
+4. more py libs: librosa, sounddevice, matplotlib, tkinter
+
+## Install and run
+* run "python3 update.py" to run theupdate script (if you want to use the Rust libs)
+* run "python3 app.py"
+
 ![image](https://github.com/user-attachments/assets/c756104d-dda5-4cdf-949f-2b1d08ad706f)
 
