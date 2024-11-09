@@ -15,7 +15,7 @@ class Overdrive(EffectInterface):
 
     def process_rust(self, data: np.ndarray, rate: int = 44100)->None:
         process_data = data.astype(np.float64)
-        audio_process_lib.overdrive(process_data, self.level, self.mix)
+        audio_process_lib.process_overdrive(process_data, self.level, self.mix)
         np.copyto(data, process_data)
 
     def process_python(self, data: np.ndarray, rate: int = 44100)->None:
