@@ -13,7 +13,8 @@ class Level(EffectInterface):
             "parameters":{
                 "level": {
                     "min":-10.0,
-                    "max": 10.0
+                    "max": 10.0,
+                    "default":0.0
                 }
             }
         }

@@ -67,19 +67,23 @@ class DigitalDelay(EffectInterface):
             "parameters":{
                 "mix":{
                     "min":0.0,
-                    "max": 1.0
+                    "max": 1.0,
+                    "default":0.0
                 },
                 "feedback":{
                     "min":0.0,
-                    "max": 1.0
+                    "max": 1.0,
+                    "default":0.5
                 },
                 "time": {
                     "min":0.0,
-                    "max": 10.0
+                    "max": 10.0,
+                    "default":0.0
                 },
                 "level": {
                     "min":-10.0,
-                    "max": 10.0
+                    "max": 10.0,
+                    "default":0.0
                 }
             }
         }

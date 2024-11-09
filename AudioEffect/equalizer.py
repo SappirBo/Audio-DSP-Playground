@@ -4,7 +4,8 @@ from .effect_interface import EffectInterface
 
 
 class Equalizer(EffectInterface):
-    def __init__(self, mix:float=0.0, level:float=0.0,analog:bool=False, high_pass:int = 22000, low_pass:int = 0, eq_params:list[dict] = None) :
+    def __init__(self, mix:float=0.0, level:float=0.0,analog:bool=False, high_pass:int = 22000, low_pass:int = 0,
+                 Peak:int =0, Peak_Q:float =0.0, Peak_gain:float = 0.0, eq_params:list[dict] = None) :
         self.mix = mix
         self.level = level
         self.analog = analog
@@ -60,39 +61,33 @@ class Equalizer(EffectInterface):
             "parameters":{
                 "level": {
                     "min":-10.0,
-                    "max": 10.0
+                    "max": 10.0,
+                    "default": 0.0
                 },
                 "high_pass":{
                     "min":15,
-                    "max":22000 
+                    "max":22000,
+                    "default":15
                 },
                 "low_pass":{
                     "min":15,
-                    "max":22000 
+                    "max":22000,
+                    "default":22000
                 },
-                "Peak_1":{
+                "Peak":{
                     "min":15,
-                    "max":22000 
+                    "max":22000,
+                    "default":500
                 },
-                "Peak_1_Q":{
-                    "min":15,
-                    "max":22000 
+                "Peak_Q":{
+                    "min":1.0,
+                    "max":10.0,
+                    "default":1.0
                 },
-                "Peak_1_gain":{
-                    "min":15,
-                    "max":22000 
-                },
-                "Peak_2":{
-                    "min":15,
-                    "max":22000 
-                },
-                "Peak_2_Q":{
-                    "min":15,
-                    "max":22000 
-                },
-                "Peak_2_gain":{
-                    "min":15,
-                    "max":22000 
+                "Peak_gain":{
+                    "min":-10.0,
+                    "max":10.0,
+                    "default":0.0
                 }
             }
         }

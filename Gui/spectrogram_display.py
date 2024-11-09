@@ -57,7 +57,7 @@ class SpectrogramDisplay:
         while self.m_thread_flag:
             while self.m_audio_source.is_audio_playing():
                 audio_frame = self.m_audio_source.get_audio_frame_in_time_domain()
-    
+
                 # Handle stereo audio by converting to mono
                 if audio_frame.ndim > 1:
                     audio_frame = np.mean(audio_frame, axis=1)

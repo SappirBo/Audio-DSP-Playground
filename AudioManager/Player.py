@@ -142,7 +142,7 @@ class Player:
             while self.m_is_playing:
                 sd.sleep(100)
 
-    def get_current_frame(self):
+    def get_current_frame(self) -> np.ndarray | None:
         if not self.is_playing():
             return None
         start_point = self.m_current_frame_index
@@ -155,8 +155,10 @@ class Player:
             frame = frame.mean(axis=1)
         return frame
     
-    def get_frame_as_time_domain(self)-> np.ndarray:
+    def get_frame_as_time_domain(self) -> np.ndarray | None:
         frame = self.get_current_frame()
+        if frame is None:
+            print("We Got a None!!")
         return frame
         
     def get_frame_as_frequncy_domain(self)-> tuple:

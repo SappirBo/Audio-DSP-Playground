@@ -1,6 +1,9 @@
 import tkinter as tk
 
 class EffectWindow:
+    '''
+    Calls of window shown for each effect, the window is dynamicly created according to the 'effect_data' dict from the effect class.
+    '''
     def __init__(self, master: tk.Tk, effect_name: str, effect_data: dict, effect_callback):
         self.master = master
         self.effect_name = effect_name
@@ -53,10 +56,6 @@ class EffectWindow:
     def apply_effect(self):
         # Retrieve parameter values
         params = {name: var.get() for name, var in self.param_values.items()}
-        # print(f"Applying {self.effect_name} with parameters: {params}")
-        # Call the apply callback with effect name and parameters
-        # self.apply_callback(self.effect_name, params)
-        # print(params)
         self.add_effect_callback(self.get_as_dict(self.effect_name,params ))
         self.window.destroy()
 
