@@ -1,6 +1,11 @@
 # DSP - Audio Processing Learning Platform 
 A convenient and interactive platform designed for Digital Signal Processing (DSP) training and learning, with a strong emphasis on Audio Processing. Whether you're a beginner looking to understand the basics or an experienced developer aiming to refine your skills, this platform offers the tools and flexibility you need to explore and optimize audio effects.
-![image](https://github.com/user-attachments/assets/f79eb6ca-3b62-4fca-805e-713aa115ed61)
+<br/>
+
+
+![image](https://github.com/user-attachments/assets/bb07354b-8b03-4e8e-b9b5-6f009b5f9cf5)
+
+
 
 ## Features
 * **WAV File Handling**: Easily select and load WAV files, which are processed and played back as NumPy ndarray streams.
