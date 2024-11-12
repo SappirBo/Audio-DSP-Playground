@@ -1,8 +1,6 @@
 use pyo3::prelude::*;
 use numpy::PyReadwriteArrayDyn;
 
-use super::common::set_levels;
-
 #[pyfunction]
 pub fn process_overdrive<'py>(_py: Python<'py>, mut data: PyReadwriteArrayDyn<'py, f64>, _level:f64, mix: f64){
     for sample in data.as_array_mut().iter_mut(){

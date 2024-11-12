@@ -1,5 +1,6 @@
 import numpy as np
 from .effect_interface import EffectInterface
+import audio_process_lib
 
 class DigitalDelay(EffectInterface):
     def __init__(self, feedback:float=0.5, time:float=0.5,  mix:float=0.5, level:float = 0):
@@ -24,6 +25,15 @@ class DigitalDelay(EffectInterface):
         data (numpy.array): The audio data to process. This data will be modified in place.
         rate (int): The sampling rate of the audio data.
         """
+        # self.process_python(data,rate)
+        self.process_rust(data,rate)
+          
+    def process_rust(self, data: np.ndarray, rate: int = 44100)->None:
+        process_data = data.astype(np.float64)
+        audio_process_lib.process_digital_delay(process_data, self.feedback, self.time, self.level, self.mix)
+        np.copyto(data, process_data)
+    
+    def process_python(self, data: np.ndarray, rate: int = 44100)->None:
         self.delay_buffer = np.zeros_like(data)
         self.delay_buffer = self.delay_buffer[0: int(44100 * self.time)]
         delay_index = 0
