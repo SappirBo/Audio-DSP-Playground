@@ -25,6 +25,4 @@ pub fn process_digital_delay<'py>(_py: Python<'py>, mut data: PyReadwriteArrayDy
             delay_index = 0;
         }
     }
-
-    data.add(0);
 }
