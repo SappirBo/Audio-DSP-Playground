@@ -20,10 +20,12 @@ class EffectInterface(ABC):
         arguments:dict =  {
             "parameters":{
             "mix":{
+                "p_type": "slider",
                 "min":0.0,
                 "max": 1.0
             },
             "level": {
+                "p_type": "slider",
                 "min":-10.0,
                 "max": 10.0
             }

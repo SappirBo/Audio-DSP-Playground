@@ -67,7 +67,8 @@ class MainScreen:
             case EffectOperation.REMOVE_ALL:
                 print("EffectOperation: remove all effects")
                 self.m_wav_file.remove_all_effect_chain()
-
+            case EffectOperation.PRINT_ALL:
+                self.m_wav_file.m_effect_chain.print_chain()
 
     ## NOT WORKING RIGHT NOW
     def handle_wav_plot(self):

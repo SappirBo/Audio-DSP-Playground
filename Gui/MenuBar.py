@@ -1,7 +1,7 @@
 from tkinter import Menu,Tk, filedialog
 import tkinter as tk
 import json
-from .EffectWindow import EffectWindow
+from .effect_window import EffectWindow
 from .EffectOperation import EffectOperation
 
 class MenuBar:
@@ -40,7 +40,7 @@ class MenuBar:
 
     def effects_command(self, code):
         if code == 0:
-            print("Showing Effects...")
+            self.effect_chain_operations(EffectOperation.PRINT_ALL)
         elif code == 1:
             self.show_add_effect_window()
         elif code == 2:

@@ -66,21 +66,25 @@ class DigitalDelay(EffectInterface):
         arguments:dict =  {
             "parameters":{
                 "mix":{
+                    "p_type": "slider",
                     "min":0.0,
                     "max": 1.0,
                     "default":0.0
                 },
                 "feedback":{
+                    "p_type": "slider",
                     "min":0.0,
                     "max": 1.0,
                     "default":0.5
                 },
                 "time": {
+                    "p_type": "slider",
                     "min":0.0,
                     "max": 10.0,
                     "default":0.0
                 },
                 "level": {
+                    "p_type": "slider",
                     "min":-10.0,
                     "max": 10.0,
                     "default":0.0

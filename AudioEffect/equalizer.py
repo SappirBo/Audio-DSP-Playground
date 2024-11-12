@@ -5,7 +5,7 @@ from .effect_interface import EffectInterface
 
 class Equalizer(EffectInterface):
     def __init__(self, mix:float=0.0, level:float=0.0,analog:bool=False, high_pass:int = 22000, low_pass:int = 0,
-                 Peak:int =0, Peak_Q:float =0.0, Peak_gain:float = 0.0, eq_params:list[dict] = None) :
+                 Peak:int =0, Peak_Q:float =0.0, Peak_gai:float = 0.0, eq_params:list[dict] = None) :
         self.mix = mix
         self.level = level
         self.analog = analog
@@ -60,31 +60,37 @@ class Equalizer(EffectInterface):
         arguments:dict =  {
             "parameters":{
                 "level": {
+                    "p_type": "slider",
                     "min":-10.0,
                     "max": 10.0,
                     "default": 0.0
                 },
                 "high_pass":{
+                    "p_type": "slider",
                     "min":15,
                     "max":22000,
                     "default":15
                 },
                 "low_pass":{
+                    "p_type": "slider",
                     "min":15,
                     "max":22000,
                     "default":22000
                 },
                 "Peak":{
+                    "p_type": "slider",
                     "min":15,
                     "max":22000,
                     "default":500
                 },
                 "Peak_Q":{
+                    "p_type": "slider",
                     "min":1.0,
                     "max":10.0,
                     "default":1.0
                 },
                 "Peak_gain":{
+                    "p_type": "slider",
                     "min":-10.0,
                     "max":10.0,
                     "default":0.0

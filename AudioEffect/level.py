@@ -12,6 +12,7 @@ class Level(EffectInterface):
         arguments:dict =  {
             "parameters":{
                 "level": {
+                    "p_type": "slider",
                     "min":-10.0,
                     "max": 10.0,
                     "default":0.0

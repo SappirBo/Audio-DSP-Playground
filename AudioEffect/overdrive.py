@@ -5,7 +5,7 @@ from .effect_interface import EffectInterface
 import audio_process_lib
 
 class Overdrive(EffectInterface):
-    def __init__(self, mix:float = 0.5, level:float= 0):
+    def __init__(self, mix:float = 0.5, level:float= 0, analog:bool=False):
         self.mix = self.set_between_range(0, 1, mix)
         self.level = self.set_between_range(-10,10,level)
 
@@ -49,14 +49,19 @@ class Overdrive(EffectInterface):
         arguments:dict =  {
             "parameters":{
                 "mix":{
+                    "p_type": "slider",
                     "min":0.0,
                     "max": 1.0,
                     "default":0.0
                 },
                 "level": {
+                    "p_type": "slider",
                     "min":-10.0,
                     "max": 10.0,
                     "default":0.0
+                },
+                "analog":{
+                    "p_type": "button"
                 }
             }
         }

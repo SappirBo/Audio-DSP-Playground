@@ -44,26 +44,32 @@ class Compressor(EffectInterface):
         arguments:dict =  {
             "parameters":{
             "mix":{
+                "p_type": "slider",
                 "min":0.0,
                 "max": 1.0
             },
             "level": {
+                "p_type": "slider",
                 "min":-10.0,
                 "max": 10.0
             },
             "threshold":{
+                "p_type": "slider",
                 "min":-30,
                 "max": 0.0
             },
             "ratio":{
+                "p_type": "slider",
                 "min": 1,
                 "max": 8
             },
             "attack":{
+                "p_type": "slider",
                 "min":1,
                 "max": 5000
             },
             "release":{
+                "p_type": "slider",
                 "min":1,
                 "max": 5000
             }
