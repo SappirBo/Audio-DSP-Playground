@@ -67,6 +67,7 @@ fn compress<'py>(_py: Python<'py>, mut data: PyReadwriteArrayDyn<'py,f64>, thres
 fn audio_process_lib<'py>(_py: Python<'py>, m: &Bound<'py, PyModule>) -> PyResult<()> {
     // example using a mutable borrow to modify an array in-place
     m.add_function(wrap_pyfunction!(compress, m)?)?;
+    m.add_function(wrap_pyfunction!(effects::common::process_levels, m)?)?;
     m.add_function(wrap_pyfunction!(effects::overdrive::process_overdrive, m)?)?;
     m.add_function(wrap_pyfunction!(effects::digital_delay::process_digital_delay, m)?)?;
     Ok(())

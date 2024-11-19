@@ -10,6 +10,7 @@ class SpectrumAnalyzer:
     def __init__(self, master, audio_source: WavFile):
         self.m_master = master
         self.m_audio_source = audio_source
+        
         self.fig, self.m_ax = plt.subplots(figsize=(6, 3))
         self.m_canvas = FigureCanvasTkAgg(self.fig, master=self.m_master)
         self.m_canvas_widget = self.m_canvas.get_tk_widget()
