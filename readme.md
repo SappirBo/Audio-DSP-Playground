@@ -1,4 +1,4 @@
-# DSP - Audio Processing Learning Platform 
+# Audio Processing (DSP) Learning Platform 
 A convenient and interactive platform designed for Digital Signal Processing (DSP) training and learning, with a strong emphasis on Audio Processing. Whether you're a beginner looking to understand the basics or an experienced developer aiming to refine your skills, this platform offers the tools and flexibility you need to explore and optimize audio effects.
 <br/>
 
