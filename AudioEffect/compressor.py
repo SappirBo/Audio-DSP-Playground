@@ -24,13 +24,64 @@ class Compressor(EffectInterface):
         data (numpy.array): The audio data to process.
         rate (int): The sampling rate of the audio data.
         """ 
+        self.process_python(data, rate)
+        # self.process_rust(data, rate)
 
+    def process_rust(self, data:np.ndarray, rate:int = 44100):
         process_data = data.astype(np.float64)
-        print(f"Max value of data {data.max()}, min value: {data.min()}")
-
         audio_process_lib.compress(process_data, self.threshold, self.ratio, self.attack, self.release)
-
         np.copyto(data, process_data)
+
+    def process_python(self, data:np.ndarray, rate:int = 44100):
+        second:float = 1000.0
+        attack_in_seconds:float = self.attack / second
+        release_in_seconds:float = self.attack / second
+
+        bits_to_attack:int = int(rate * attack_in_seconds)
+        bits_to_release:int = int(rate * release_in_seconds)
+        
+        threshold_range:float = 100.0
+        sample_max_val:float = 1.0
+        sample_threashold_chunck:float = sample_max_val / threshold_range
+
+        sample_threashold:float = self.threshold * sample_threashold_chunck
+
+        apply_compression:bool = False
+        attack_counter:int = 0
+        release_counter:int = 0
+        refinement:int = 0
+
+        for i in range(len(data)):
+            if abs(data[i][0]) > abs(sample_threashold) or abs(data[i][1]) > abs(sample_threashold):
+                if apply_compression is False:
+                    apply_compression = True
+                    attack_counter = 0
+                release_counter = 0
+            
+            if apply_compression:
+                if attack_counter <= bits_to_attack:
+                    refinement = int(attack_counter/ bits_to_attack)
+                    left  = self.compress(data[i][0], refinement)
+                    right = self.compress(data[i][1], refinement)
+                    data[i] = [left, right]
+                    attack_counter += 1
+                elif release_counter < bits_to_release:
+                    refinement = int(release_counter/ bits_to_release)
+                    left  = self.compress(data[i][0], refinement)
+                    right = self.compress(data[i][1], refinement)
+                    data[i] = [left, right]
+                    release_counter += 1
+                else:
+                    apply_compression = False
+
+    def compress(self, sample:float, refinement:float) -> float:
+        decrease:float = sample /  self.ratio
+        factor:float = (self.ratio * refinement) if (self.ratio * refinement) > 1.0 else 1.0
+        if self.ratio > 1:
+            decrease = sample/factor
+        sample = (1 - self.mix) * sample + (self.mix)*(decrease)
+
+        return sample
 
     def print_args(self):
         print(f"mix = {self.mix}")
@@ -55,7 +106,7 @@ class Compressor(EffectInterface):
             },
             "threshold":{
                 "p_type": "slider",
-                "min":-30,
+                "min":-100.0,
                 "max": 0.0
             },
             "ratio":{
